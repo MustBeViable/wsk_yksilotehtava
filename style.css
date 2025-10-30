@@ -1,0 +1,56 @@
+#map {
+  height: 15rem;
+  width: 30rem;
+}
+
+
+.scroll-y {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.password-img {
+    width: 10px;
+    height: auto;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0;
+  padding: 0;
+}
+
+th {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  font-size: large;
+  padding: 0.5em 1em;
+  text-align: left;
+}
+
+td {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5em 1em;
+}
+
+.restaurant_list tr:hover {
+  font-weight: bold;
+  background-color: aqua;
+}
+
+.menu_table {
+    background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  font-weight: normal;
+  padding: 0.5em 1em;
+  text-align: left;
+}
+
+.highlight {
+  background-color: aqua;
+  font-weight: bolder;
+}
