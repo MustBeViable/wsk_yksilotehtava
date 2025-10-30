@@ -20,7 +20,6 @@ const run = async () => {
     const list = Array.isArray(data) ? data : [];
     setRestaurantsCache(list);
     addElements(sortList(list));
-    console.log(list);
   } catch (err) {
     console.error(err);
     failedToLoad(

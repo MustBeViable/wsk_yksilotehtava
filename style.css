@@ -3,7 +3,6 @@
   width: 30rem;
 }
 
-
 .scroll-y {
   max-height: 300px;
   overflow-y: auto;
@@ -12,8 +11,8 @@
 }
 
 .password-img {
-    width: 10px;
-    height: auto;
+  width: 10px;
+  height: auto;
 }
 
 table {
@@ -23,7 +22,11 @@ table {
   padding: 0;
 }
 
-th {
+thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 2;
   background-color: #f0f0f0;
   border-bottom: 1px solid #ccc;
   font-weight: bold;
@@ -43,7 +46,7 @@ td {
 }
 
 .menu_table {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
   border-bottom: 1px solid #ccc;
   font-weight: normal;
   padding: 0.5em 1em;
