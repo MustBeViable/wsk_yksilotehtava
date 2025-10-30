@@ -33,25 +33,28 @@
     </div>
   </nav>
   <main>
-    <p>restaurant menu stuff</p>
-    <form action="">
-      <label for="filter_input">Filter list by company</label>
-      <input id="filter_input" type="text" placeholder="enter the company" />
-      <button id="filter_button">search</button>
-    </form>
-    <div id="restaurants" class="scroll-y">
-      <table>
-        <thead class="restaurant_list">
-          <tr>
-            <th>Name</th>
-            <th>Company name</th>
-          </tr>
-        </thead>
-        <tbody class="restaurant_list" id="restaurants_scroll"></tbody>
-      </table>
+    <div class="pane-left">
+      <div id="restaurants" class="scroll-y">
+        <table>
+          <thead class="restaurant_list">
+            <tr>
+              <th>Name</th>
+              <th>Company name</th>
+            </tr>
+          </thead>
+          <tbody class="restaurant_list" id="restaurants_scroll"></tbody>
+        </table>
+      </div>
+      <form action="">
+        <label for="filter_input">Filter list by company</label>
+        <input id="filter_input" type="text" placeholder="enter the company" />
+        <button id="filter_button">search</button>
+      </form>
     </div>
     <dialog></dialog>
-    <div id="map"></div>
+    <div class="pane-right">
+      <div id="map"></div>
+    </div>
   </main>
   <section></section>
   <aside></aside>
