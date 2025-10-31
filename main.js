@@ -31,8 +31,8 @@ const run = async () => {
     const list = Array.isArray(data) ? data : [];
     setRestaurantsCache(list);
     addElements(sortList(list));
-    getUserLocation();
-    setMarkers(list);
+    const userCoordinates = await getUserLocation();
+    setMarkers(list, userCoordinates);
   } catch (err) {
     console.error(err);
     failedToLoad(

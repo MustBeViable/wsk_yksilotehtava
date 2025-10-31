@@ -7,6 +7,7 @@ import {
   getRestaurantsCache,
   rowById,
   markerById,
+  userIcon
 } from "./variables.js";
 import { restaurantModal, restaurantRow } from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
@@ -43,14 +44,17 @@ export async function getUserLocation() {
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
+    return [userCoords.lat, userCoords.long]
   } catch (e) {
     console.log(e.message);
   }
 }
 
-export function setMarkers(list) {
+export async function setMarkers(list, userCoordinates) {
   const div = document.createElement("div");
   body.appendChild(div);
+  console.log(userCoordinates);
+  L.marker(userCoordinates, {icon: userIcon}).addTo(map);
   for (let i = 0; i < list.length; i++) {
     const long = list[i].location.coordinates[0];
     const lat = list[i].location.coordinates[1];

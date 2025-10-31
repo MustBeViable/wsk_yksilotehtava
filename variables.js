@@ -25,3 +25,10 @@ export function setRestaurantsCache(restauranlist) {
 
 export const rowById = new Map();
 export const markerById = new Map();
+
+export const userIcon = L.icon({
+  iconUrl: "./resources/images/user-pin.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32]
+});
