@@ -22,3 +22,6 @@ export function getRestaurantsCache() {
 export function setRestaurantsCache(restauranlist) {
   restaurantsCache = restauranlist;
 }
+
+export const rowById = new Map();
+export const markerById = new Map();
