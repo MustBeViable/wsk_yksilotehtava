@@ -28,9 +28,9 @@ export const logInComponent = () => {
   const logInNavBar = `
     <form action="">
       <input type="text" placeholder="username" />
-      <input type="password" placeholder="password" />
+      <input id="password-input-login" type="password" placeholder="password" />
       <button id="show-password-log-in">
-        <img src="./resources/images/eye_8276553.png" class="password-img" />
+        <img id="log-in-image" src="./resources/images/eye_8276553.png" class="password-img" />
       </button>
     </form>
     <button id="sign-up-button">or sign up</button>
