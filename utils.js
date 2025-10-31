@@ -1,52 +1,65 @@
-import { map, body, restaurantsTable, restaurantMenuDialog, restaurantMenuUrl, getRestaurantsCache } from "./variables.js";
-import { restaurantModal, restaurantRow } from './components/components.js'
+import {
+  map,
+  body,
+  restaurantsTable,
+  restaurantMenuDialog,
+  restaurantMenuUrl,
+  getRestaurantsCache,
+} from "./variables.js";
+import { restaurantModal, restaurantRow } from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
 export function userLocator() {
-  return new Promise((resolve, reject) =>{
-        if (!("geolocation" in navigator)) {
+  return new Promise((resolve, reject) => {
+    if (!("geolocation" in navigator)) {
       reject(new Error("Geolocation ei tuettu"));
       return;
     }
     navigator.geolocation.getCurrentPosition(
-    pos => {resolve({
-      long: pos.coords.longitude,
-      lat: pos.coords.latitude})
-    },
-    err => {console.log("ei toimi tää", err.message)},
-        {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    }
-  )});
+      (pos) => {
+        resolve({
+          long: pos.coords.longitude,
+          lat: pos.coords.latitude,
+        });
+      },
+      (err) => {
+        console.log("ei toimi tää", err.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    );
+  });
 }
 export async function getUserLocation() {
   try {
-  const userCoords = await userLocator();
-  map.setView([userCoords.lat, userCoords.long], 13);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);}
-catch (e) {
-  console.log(e.message);
-}
+    const userCoords = await userLocator();
+    map.setView([userCoords.lat, userCoords.long], 13);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 export function setMarkers(list) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   body.appendChild(div);
-  for (let i = 0; i<list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     const long = list[i].location.coordinates[0];
     const lat = list[i].location.coordinates[1];
     const marker = L.marker([lat, long]).addTo(map);
-    marker.on('click', () => {
+    marker.on("click", () => {
       div.innerHTML = `
       <h3>${list[i].name}</h3>
       <p>${list[i].address}</p>
-      `
+      `;
       map.setView([lat, long], 15);
-    })
+    });
   }
 }
 
@@ -55,14 +68,17 @@ export const fetchData = async (url) => {
     const response = await fetch(url);
     if (response.ok) {
       return response.json();
-    } 
-    else {
+    } else {
       const message = `HTTP: ${response.status}, ${response.statusText}`;
       failedToLoad("div", message, "refresh page");
     }
   } catch (e) {
     console.log(e);
-    failedToLoad("div", "No connection. Check your connection and try again.", "refresh page");
+    failedToLoad(
+      "div",
+      "No connection. Check your connection and try again.",
+      "refresh page"
+    );
   }
 };
 
@@ -80,12 +96,7 @@ export const clearClasses = () => {
 };
 
 export const clearRestaurantList = (element) => {
-  element.innerHTML = `
-    <tr>
-      <th>Name</th>
-      <th>Company name</th>
-    </tr>
-    `;
+  element.innerHTML = "";
 };
 
 export function debounce(fn, delay = 300) {
@@ -133,8 +144,8 @@ export const filterRestaurants = (keyword) => {
     (restaurant.company || "").toLowerCase().includes(keyword.toLowerCase())
   );
   if (restaurantsListFiltered.length <= 0) {
-      failedToLoad("p", "<b>No restaurants</b>", "close");
-    } else {
+    failedToLoad("p", "<b>No restaurants</b>", "close");
+  } else {
     addElements(sortList(restaurantsListFiltered));
   }
 };
@@ -150,40 +161,26 @@ export const showHidePassword = (button, visibility, image) => {
       image.src = "./resources/images/eye_8276553.png";
       break;
   }
-}
+};
 
 export const revealPasswordButton = (buttonElement, inputElement, image) => {
-  buttonElement.addEventListener('click', (e) => {e.preventDefault();})
+  buttonElement.addEventListener("click", (e) => {
+    e.preventDefault();
+  });
   buttonElement.addEventListener("mousedown", (e) => {
     e.preventDefault();
-    showHidePassword(
-      inputElement,
-      "show",
-      image
-    );
+    showHidePassword(inputElement, "show", image);
   });
-    buttonElement.addEventListener("mouseup", (e) => {
+  buttonElement.addEventListener("mouseup", (e) => {
     e.preventDefault();
-    showHidePassword(
-      inputElement,
-      "hide",
-      image
-    );
+    showHidePassword(inputElement, "hide", image);
   });
-    buttonElement.addEventListener("touchstart", (e) => {
+  buttonElement.addEventListener("touchstart", (e) => {
     e.preventDefault();
-    showHidePassword(
-      inputElement,
-      "show",
-      image
-    );
+    showHidePassword(inputElement, "show", image);
   });
-    buttonElement.addEventListener("touchend", (e) => {
+  buttonElement.addEventListener("touchend", (e) => {
     e.preventDefault();
-    showHidePassword(
-      inputElement,
-      "hide",
-      image
-    );
+    showHidePassword(inputElement, "hide", image);
   });
 };
