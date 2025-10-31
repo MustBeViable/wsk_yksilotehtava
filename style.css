@@ -8,6 +8,26 @@ nav {
     width: auto;
 }
 
+dialog[open] {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  z-index: 99999;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(3px); 
+}
+
+.sign-up-form {
+  display: flex;
+  flex-direction: column; /* allekkain */
+  gap: 0.5rem;            /* väliä riveihin */
+  align-items: stretch; 
+}
+
 #profile-picture {
   height: 75px;
   width: auto;
@@ -80,6 +100,7 @@ td {
   background-color: aqua;
   font-weight: bolder;
 }
+
 
 @media (min-width: 600px) {
   .scroll-y {
