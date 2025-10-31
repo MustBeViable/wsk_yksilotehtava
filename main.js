@@ -1,12 +1,28 @@
-import { restaurants, filterSubmitButton, filterCompany, restaurantListUrl, getRestaurantsCache, setRestaurantsCache } from "./variables.js";
-import { getUserLocation, setMarkers, debounce, filterRestaurants, fetchData, addElements, sortList } from "./utils.js";
+import {
+  restaurants,
+  filterSubmitButton,
+  filterCompany,
+  restaurantListUrl,
+  setRestaurantsCache,
+} from "./variables.js";
+import {
+  getUserLocation,
+  setMarkers,
+  debounce,
+  filterRestaurants,
+  fetchData,
+  addElements,
+  sortList,
+  revealPasswordButton
+} from "./utils.js";
+import { defaultNavBar } from "./components/navBar.js";
 import { failedToLoad } from "./components/error_component.js";
-
 
 getUserLocation();
 setMarkers(restaurants);
 
 const run = async () => {
+  defaultNavBar();
   filterSubmitButton.addEventListener("click", (evt) => {
     evt.preventDefault();
     filterRestaurants(filterCompany.value);
@@ -28,11 +44,6 @@ const run = async () => {
       "refresh page"
     );
   }
-    revealPasswordButton(
-      document.getElementById("show-password"),
-      document.getElementById("password-input-login"),
-      document.getElementById("log-in-image")
-    );
 };
 
 run();

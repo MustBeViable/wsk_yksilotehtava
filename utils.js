@@ -1,4 +1,4 @@
-import { map, body, table, dialog, restaurantMenuUrl, getRestaurantsCache } from "./variables.js";
+import { map, body, restaurantsTable, restaurantMenuDialog, restaurantMenuUrl, getRestaurantsCache } from "./variables.js";
 import { restaurantModal, restaurantRow } from './components/components.js'
 import { failedToLoad } from "./components/error_component.js";
 export function userLocator() {
@@ -100,15 +100,15 @@ export const addElements = (array) => {
   if (array?.length >= 1) {
     array.forEach((restaurant) => {
       const tr = restaurantRow(restaurant);
-      table.appendChild(tr);
+      restaurantsTable.appendChild(tr);
       tr.addEventListener("click", async () => {
         clearClasses();
         tr.classList.add("highlight");
         let url = restaurantMenuUrl + restaurant._id + "/fi";
         const menu = await fetchData(url);
         if (menu?.courses?.length) {
-          dialog.innerHTML = restaurantModal(restaurant, menu);
-          dialog.showModal();
+          restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
+          restaurantMenuDialog.showModal();
           document
             .getElementById("close-modal")
             ?.addEventListener("click", () =>
@@ -127,7 +127,7 @@ export const addElements = (array) => {
 };
 
 export const filterRestaurants = (keyword) => {
-  clearRestaurantList(table);
+  clearRestaurantList(restaurantsTable);
   const restaurantsCache = getRestaurantsCache();
   const restaurantsListFiltered = restaurantsCache.filter((restaurant) =>
     (restaurant.company || "").toLowerCase().includes(keyword.toLowerCase())
