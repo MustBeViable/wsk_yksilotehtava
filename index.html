@@ -20,34 +20,61 @@
 <body>
   <dialog id="sign-up-dialog"></dialog>
   <div id="error"></div>
-  <nav>
-  </nav>
-  <main>
-    <div class="pane-left">
-      <div id="restaurants" class="scroll-y">
-        <table>
-          <thead class="restaurant-list">
-            <tr>
-              <th>Name</th>
-              <th>Company name</th>
-            </tr>
-          </thead>
-          <tbody class="restaurant-list" id="restaurants-scroll"></tbody>
-        </table>
-      </div>
-      <form action="">
-        <label for="filter-input">Filter list by company</label>
-        <input id="filter-input" type="text" placeholder="enter the company" />
-        <button id="filter-button">search</button>
-      </form>
+  <div class="nav-bar">
+    <nav></nav>
+  </div>
+  <div class="page">
+    <div class="main-content">
+      <main>
+        <div class="pane-middle">
+          <div id="restaurants" class="scroll-y">
+            <table>
+              <thead class="restaurant-list">
+                <tr>
+                  <th>Name</th>
+                  <th>Company name</th>
+                </tr>
+              </thead>
+              <tbody class="restaurant-list" id="restaurants-scroll"></tbody>
+            </table>
+          </div>
+          <form action="">
+            <label for="filter-input">Filter list by company</label>
+            <input
+              id="filter-input"
+              type="text"
+              placeholder="enter the company"
+            />
+            <button id="filter-button">search</button>
+          </form>
+        </div>
+        <dialog id="menu-dialog"></dialog>
+        <div>
+          <div id="map"></div>
+        </div>
+      </main>
     </div>
-    <dialog id="menu-dialog"></dialog>
-    <div class="pane-right">
-      <div id="map"></div>
-    </div>
-  </main>
-  <section></section>
-  <aside></aside>
+    <section></section>
+    <aside class="pane-left">
+      <h3>Random Chuck Norris joke:</h3>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio
+        aliquid quam temporibus neque, officiis eius recusandae accusantium
+        veritatis veniam totam a doloremque laborum labore modi, natus officia
+        inventore odit quis!
+      </p>
+      <button id="chuck-norris">Generate new</button>
+    </aside>
+    <aside class="pane-right">
+      <h3>figure sumtin here</h3>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio
+        aliquid quam temporibus neque, officiis eius recusandae accusantium
+        veritatis veniam totam a doloremque laborum labore modi, natus officia
+        inventore odit quis!
+      </p>
+    </aside>
+  </div>
   <article></article>
   <footer></footer>
 </body>
