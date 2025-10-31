@@ -771,10 +771,10 @@ export const restaurants = [
 ];
 
 export const body =  document.querySelector('main');
-export const table = document.getElementById('restaurants_scroll');
+export const table = document.getElementById('restaurants-scroll');
 export const dialog = document.querySelector("dialog");
-export const filterCompany = document.getElementById('filter_input');
-export const filterSubmitButton = document.getElementById('filter_button');
+export const filterCompany = document.getElementById('filter-input');
+export const filterSubmitButton = document.getElementById('filter-button');
 export let map = L.map('map');
 
 export const restaurantListUrl = 'https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants';

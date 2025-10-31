@@ -138,3 +138,52 @@ export const filterRestaurants = (keyword) => {
     addElements(sortList(restaurantsListFiltered));
   }
 };
+
+export const showHidePassword = (button, visibility, image) => {
+  switch (visibility) {
+    case "show":
+      button.type = "text";
+      image.src = "./resources/images/hide_15567150.png";
+      break;
+    case "hide":
+      button.type = "password";
+      image.src = "./resources/images/eye_8276553.png";
+      break;
+  }
+}
+
+export const revealPasswordButton = (buttonElement, inputElement, image) => {
+  buttonElement.addEventListener('click', (e) => {e.preventDefault();})
+  buttonElement.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    showHidePassword(
+      inputElement,
+      "show",
+      image
+    );
+  });
+    buttonElement.addEventListener("mouseup", (e) => {
+    e.preventDefault();
+    showHidePassword(
+      inputElement,
+      "hide",
+      image
+    );
+  });
+    buttonElement.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    showHidePassword(
+      inputElement,
+      "show",
+      image
+    );
+  });
+    buttonElement.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    showHidePassword(
+      inputElement,
+      "hide",
+      image
+    );
+  });
+};

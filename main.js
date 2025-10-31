@@ -28,6 +28,11 @@ const run = async () => {
       "refresh page"
     );
   }
+    revealPasswordButton(
+      document.getElementById("show-password"),
+      document.getElementById("password-input-login"),
+      document.getElementById("log-in-image")
+    );
 };
 
 run();
