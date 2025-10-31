@@ -1,5 +1,18 @@
+:root {
+  --color-primary: #1A73E8;     /* Sininen – pääväri */
+  --color-secondary: #00C853;   /* Vihreä – korostus */
+  --color-accent: #FF6D00;      /* Oranssi – CTA ja highlight */
+  --color-bg: #F5F7FA;          /* Vaalea tausta */
+  --color-text: #1A1A1A;        /* Teksti */
+  --color-card: #ffffff;        /* Kortit, dialogit */
+  --color-border: #d1d5db;      /* Kevyt harmaa */
+}
+
 body {
   margin: 10px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 nav {
@@ -59,6 +72,7 @@ dialog::backdrop {
 }
 
 table {
+  background-color: var(--color-primary);
   border-collapse: collapse;
   border-spacing: 0;
   margin: 0;
@@ -70,7 +84,7 @@ thead th {
   top: 0;
   background: #fff;
   z-index: 2;
-  background-color: #f0f0f0;
+  background-color: var(--color-accent);
   border-bottom: 1px solid #ccc;
   font-weight: bold;
   font-size: large;
@@ -84,8 +98,8 @@ td {
 }
 
 .restaurant-list tr:hover {
+  background-color: var(--color-secondary);
   font-weight: bold;
-  background-color: aqua;
 }
 
 .menu-table {
@@ -97,7 +111,7 @@ td {
 }
 
 .highlight {
-  background-color: aqua;
+  background-color: rgba(26, 115, 232, 0.15);
   font-weight: bolder;
 }
 
