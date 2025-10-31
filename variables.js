@@ -774,7 +774,6 @@ export const body = document.querySelector("main");
 export const navBar = document.querySelector("nav");
 export const restaurantsTable = document.getElementById("restaurants-scroll");
 export const restaurantMenuDialog = document.getElementById("menu-dialog");
-//export const logInDialog = document.getElementById("log-in-dialog");
 export const signUpDialog = document.getElementById("sign-up-dialog");
 export const filterCompany = document.getElementById("filter-input");
 export const filterSubmitButton = document.getElementById("filter-button");
