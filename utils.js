@@ -5,6 +5,8 @@ import {
   restaurantMenuDialog,
   restaurantMenuUrl,
   getRestaurantsCache,
+  rowById,
+  markerById,
 } from "./variables.js";
 import { restaurantModal, restaurantRow } from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
@@ -53,12 +55,24 @@ export function setMarkers(list) {
     const long = list[i].location.coordinates[0];
     const lat = list[i].location.coordinates[1];
     const marker = L.marker([lat, long]).addTo(map);
-    marker.on("click", () => {
-      div.innerHTML = `
-      <h3>${list[i].name}</h3>
+    markerById.set(list[i]._id, marker);
+    const popUpHTML = `
+    <div class="marker-poput">
+      <h5>${list[i].name}</h5>
       <p>${list[i].address}</p>
-      `;
+    </div>
+    `;
+    marker.bindPopup(popUpHTML);
+    marker.on("click", () => {
+      marker.openPopup();
       map.setView([lat, long], 15);
+      const tr = rowById.get(list[i]._id);
+      if (tr) {
+        clearClasses();
+        tr.classList.add("highlight");
+        tr.scrollIntoView({ behavior: "smooth", block: "center" });
+        tr.focus({ preventScroll: true });
+      }
     });
   }
 }
@@ -108,23 +122,30 @@ export function debounce(fn, delay = 300) {
 }
 
 export const addElements = (array) => {
+  rowById.clear();
   if (array?.length >= 1) {
     array.forEach((restaurant) => {
       const tr = restaurantRow(restaurant);
       restaurantsTable.appendChild(tr);
+      rowById.set(restaurant._id, tr);
       tr.addEventListener("click", async () => {
         clearClasses();
         tr.classList.add("highlight");
         let url = restaurantMenuUrl + restaurant._id + "/fi";
         const menu = await fetchData(url);
+        map.setView(
+          [
+            restaurant.location.coordinates[1],
+            restaurant.location.coordinates[0],
+          ],
+          13
+        );
         if (menu?.courses?.length) {
           restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
           restaurantMenuDialog.showModal();
           document
             .getElementById("close-modal")
-            ?.addEventListener("click", () =>
-              document.querySelector("dialog").close()
-            );
+            ?.addEventListener("click", () => restaurantMenuDialog.close());
         } else {
           failedToLoad(
             "dialog",

@@ -1,5 +1,4 @@
 import {
-  restaurants,
   filterSubmitButton,
   filterCompany,
   restaurantListUrl,
@@ -12,14 +11,10 @@ import {
   filterRestaurants,
   fetchData,
   addElements,
-  sortList,
-  revealPasswordButton
+  sortList
 } from "./utils.js";
 import { defaultNavBar } from "./components/navBar.js";
 import { failedToLoad } from "./components/error_component.js";
-
-getUserLocation();
-setMarkers(restaurants);
 
 const run = async () => {
   defaultNavBar();
@@ -36,6 +31,8 @@ const run = async () => {
     const list = Array.isArray(data) ? data : [];
     setRestaurantsCache(list);
     addElements(sortList(list));
+    getUserLocation();
+    setMarkers(list);
   } catch (err) {
     console.error(err);
     failedToLoad(
