@@ -2,15 +2,14 @@ import {
   map,
   body,
   restaurantsTable,
-  restaurantMenuDialog,
-  restaurantMenuUrl,
   getRestaurantsCache,
   rowById,
   markerById,
-  userIcon
+  userIcon,
 } from "./variables.js";
 import { restaurantModal, restaurantRow } from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
+
 export function userLocator() {
   return new Promise((resolve, reject) => {
     if (!("geolocation" in navigator)) {
@@ -35,6 +34,7 @@ export function userLocator() {
     );
   });
 }
+
 export async function getUserLocation() {
   try {
     const userCoords = await userLocator();
@@ -44,7 +44,7 @@ export async function getUserLocation() {
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-    return [userCoords.lat, userCoords.long]
+    return [userCoords.lat, userCoords.long];
   } catch (e) {
     console.log(e.message);
   }
@@ -54,31 +54,44 @@ export async function setMarkers(list, userCoordinates) {
   const div = document.createElement("div");
   body.appendChild(div);
   console.log(userCoordinates);
-  L.marker(userCoordinates, {icon: userIcon}).addTo(map);
+  L.marker(userCoordinates, { icon: userIcon }).addTo(map);
   for (let i = 0; i < list.length; i++) {
     const long = list[i].location.coordinates[0];
     const lat = list[i].location.coordinates[1];
     const marker = L.marker([lat, long]).addTo(map);
     markerById.set(list[i]._id, marker);
-    const popUpHTML = `
+    buildMarkerPopUp(list[i], marker, lat, long);
+  }
+}
+
+export function buildMarkerPopUp(restaurant, marker, lat, long) {
+  const popUpHTML = `
     <div class="marker-poput">
-      <h5>${list[i].name}</h5>
-      <p>${list[i].address}</p>
+      <h5>${restaurant.name}</h5>
+      <p>${restaurant.address}</p>
+      <button id="daily-${restaurant._id}">todays menu</button>
+      <button id="weekly-${restaurant._id}">weeks menu</button>
     </div>
     `;
-    marker.bindPopup(popUpHTML);
-    marker.on("click", () => {
-      marker.openPopup();
-      map.setView([lat, long], 15);
-      const tr = rowById.get(list[i]._id);
-      if (tr) {
-        clearClasses();
-        tr.classList.add("highlight");
-        tr.scrollIntoView({ behavior: "smooth", block: "center" });
-        tr.focus({ preventScroll: true });
-      }
-    });
-  }
+  marker.bindPopup(popUpHTML, { autoPan: false, keepInView: false, animate: false });
+  marker.on("click", () => {
+    map.setView([lat, long], 15);
+    panMapTo(restaurant);
+    marker.openPopup();
+    const tr = rowById.get(restaurant._id)
+    if (tr) {
+      clearClasses();
+      tr.classList.add("highlight");
+      tr.scrollIntoView({ behavior: "smooth", block: "center" });
+      tr.focus({ preventScroll: true });
+    }
+  });
+}
+
+function panMapTo(restaurant) {
+    const offsetLong = Math.round(map.getSize().y * 0.2);
+    map.panBy([0, -offsetLong], { animate: true });
+    const tr = rowById.get(restaurant._id);
 }
 
 export const fetchData = async (url) => {
@@ -135,28 +148,17 @@ export const addElements = (array) => {
       tr.addEventListener("click", async () => {
         clearClasses();
         tr.classList.add("highlight");
-        let url = restaurantMenuUrl + restaurant._id + "/fi";
-        const menu = await fetchData(url);
+        const marker = markerById.get(restaurant._id);
+        if (marker) {
+          marker.openPopup();
+        }
         map.setView(
           [
             restaurant.location.coordinates[1],
             restaurant.location.coordinates[0],
           ],
-          13
         );
-        if (menu?.courses?.length) {
-          restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
-          restaurantMenuDialog.showModal();
-          document
-            .getElementById("close-modal")
-            ?.addEventListener("click", () => restaurantMenuDialog.close());
-        } else {
-          failedToLoad(
-            "dialog",
-            "No menu found, check your connection and try again.",
-            "close"
-          );
-        }
+        panMapTo(restaurant);
       });
     });
   }
