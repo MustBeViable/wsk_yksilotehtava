@@ -1,3 +1,5 @@
+import { restaurantListUrl, restaurantMenuDialog } from "../variables.js";
+
 const restaurantRow = (restaurant) => {
   const { _id, name, company } = restaurant;
   const tr = document.createElement("tr");
@@ -75,6 +77,33 @@ const restaurantModal = (restaurant, menu) => {
     </div>
   `;
   return restaurantHTML + menuHTML;
+};
+
+const menuElement = async (restaurant, option, lang) => {
+  let url = restaurantListUrl + `/${option}/` + restaurant._id + `/${lang}`;
+  const menu = await fetchData(url);
+  switch (option) {
+    case "daily": {
+      if (menu?.courses?.length) {
+        restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
+        restaurantMenuDialog.showModal();
+        document
+          .getElementById("close-modal")
+          ?.addEventListener("click", () => restaurantMenuDialog.close());
+      } else {
+        failedToLoad(
+          "dialog",
+          "No menu found, check your connection and try again.",
+          "close"
+        );
+      }
+    }
+    //tähän vois laittaa jokaisesta päivästä oma restaurantModal() johon se 
+    // valitsee sen päivän ja voi vaihella sit haluumisen mukaa sitä päivää ja mitä näyttää
+    case "weekly": {
+
+    }
+  }
 };
 
 export { restaurantRow, restaurantModal };
