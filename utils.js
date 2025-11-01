@@ -7,7 +7,11 @@ import {
   markerById,
   userIcon,
 } from "./variables.js";
-import { restaurantModal, restaurantRow } from "./components/components.js";
+import {
+  restaurantModal,
+  restaurantRow,
+  menuElement,
+} from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
 
 export function userLocator() {
@@ -64,21 +68,35 @@ export async function setMarkers(list, userCoordinates) {
   }
 }
 
+//muokkaa palauttamaan olio mikä tallentuu Map() interfaceen ja saadaan sit buttonit toimii ees taas
 export function buildMarkerPopUp(restaurant, marker, lat, long) {
+  const buttonIdDaily = restaurant._id + "-daily";
+  const buttonIdWeekly = restaurant._id + "-weekly";
   const popUpHTML = `
     <div class="marker-poput">
       <h5>${restaurant.name}</h5>
       <p>${restaurant.address}</p>
-      <button id="daily-${restaurant._id}">todays menu</button>
-      <button id="weekly-${restaurant._id}">weeks menu</button>
+      <button id="${buttonIdDaily}">todays menu</button>
+      <button id="${buttonIdWeekly}">weeks menu</button>
     </div>
     `;
-  marker.bindPopup(popUpHTML, { autoPan: false, keepInView: false, animate: false });
+  marker.bindPopup(popUpHTML, {
+    autoPan: false,
+    keepInView: false,
+    animate: false,
+  });
   marker.on("click", () => {
     map.setView([lat, long], 15);
     panMapTo(restaurant);
     marker.openPopup();
-    const tr = rowById.get(restaurant._id)
+    while (document.getElementById(buttonIdDaily) == null) {
+      //this forces to wait until button element have been created
+    }
+    document.getElementById(buttonIdDaily).addEventListener("click", (e) => {
+      e.preventDefault();
+      menuElement(restaurant, "daily", "fi");
+    });
+    const tr = rowById.get(restaurant._id);
     if (tr) {
       clearClasses();
       tr.classList.add("highlight");
@@ -86,12 +104,13 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
       tr.focus({ preventScroll: true });
     }
   });
+  return {}
 }
 
 function panMapTo(restaurant) {
-    const offsetLong = Math.round(map.getSize().y * 0.2);
-    map.panBy([0, -offsetLong], { animate: true });
-    const tr = rowById.get(restaurant._id);
+  const offsetLong = Math.round(map.getSize().y * 0.2);
+  map.panBy([0, -offsetLong], { animate: true });
+  const tr = rowById.get(restaurant._id);
 }
 
 export const fetchData = async (url) => {
@@ -151,13 +170,20 @@ export const addElements = (array) => {
         const marker = markerById.get(restaurant._id);
         if (marker) {
           marker.openPopup();
+          while (document.getElementById(buttonIdDaily) == null) {
+            //this forces to wait until button element have been created
+          }
+          document
+            .getElementById(buttonIdDaily)
+            .addEventListener("click", (e) => {
+              e.preventDefault();
+              menuElement(restaurant, "daily", "fi");
+            });
         }
-        map.setView(
-          [
-            restaurant.location.coordinates[1],
-            restaurant.location.coordinates[0],
-          ],
-        );
+        map.setView([
+          restaurant.location.coordinates[1],
+          restaurant.location.coordinates[0],
+        ]);
         panMapTo(restaurant);
       });
     });

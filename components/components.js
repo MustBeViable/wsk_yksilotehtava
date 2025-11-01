@@ -1,4 +1,5 @@
 import { restaurantListUrl, restaurantMenuDialog } from "../variables.js";
+import { fetchData } from "../utils.js";
 
 const restaurantRow = (restaurant) => {
   const { _id, name, company } = restaurant;
@@ -97,13 +98,29 @@ const menuElement = async (restaurant, option, lang) => {
           "close"
         );
       }
+      break;
     }
-    //tähän vois laittaa jokaisesta päivästä oma restaurantModal() johon se 
-    // valitsee sen päivän ja voi vaihella sit haluumisen mukaa sitä päivää ja mitä näyttää
     case "weekly": {
-
+      if (menu?.days.length) {
+        const weeklyMenuHTML = `
+        <table id="${restaurant._id}-weekly">
+        </table>
+        `;
+        let menuDateId = restaurant._id;
+        const dateTable = document.getElementById(restaurant._id + "-weekly");
+        menu.day.forEach((element) => {
+          const tr = document.createElement("tr");
+          menuDateId += 1;
+          const td = document.createElement("td");
+          tr.id = menuDateId;
+          td.innerHTML = element.date;
+          tr.appendChild(td);
+          dateTable.appendChild(tr);
+        });
+      }
+      break;
     }
   }
 };
 
-export { restaurantRow, restaurantModal };
+export { restaurantRow, restaurantModal, menuElement };
