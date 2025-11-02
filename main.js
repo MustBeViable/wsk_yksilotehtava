@@ -5,8 +5,6 @@ import {
   setRestaurantsCache,
 } from "./variables.js";
 import {
-  getUserLocation,
-  setMarkers,
   debounce,
   filterRestaurants,
   fetchData,
@@ -15,6 +13,7 @@ import {
 } from "./utils.js";
 import { defaultNavBar } from "./components/navBar.js";
 import { failedToLoad } from "./components/error_component.js";
+import { setMarkers, getUserLocation,  } from "./components/mapControl.js";
 
 const run = async () => {
   defaultNavBar();

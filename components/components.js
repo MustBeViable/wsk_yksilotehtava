@@ -1,5 +1,6 @@
 import { restaurantListUrl, restaurantMenuDialog } from "../variables.js";
 import { fetchData } from "../utils.js";
+import { failedToLoad } from "./error_component.js";
 
 const restaurantRow = (restaurant) => {
   const { _id, name, company } = restaurant;
