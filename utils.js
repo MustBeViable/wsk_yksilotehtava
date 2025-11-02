@@ -35,21 +35,40 @@ export function userLocator() {
 }
 
 export const fetchData = async (url, options) => {
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      return response.json();
-    } else {
-      const message = `HTTP: ${response.status}, ${response.statusText}`;
-      failedToLoad("div", message, "refresh page");
+  if (options == null) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        return response.json();
+      } else {
+        const message = `HTTP: ${response.status}, ${response.statusText}`;
+        failedToLoad("div", message, "refresh page");
+      }
+    } catch (e) {
+      console.log(e);
+      failedToLoad(
+        "div",
+        "No connection. Check your connection and try again.",
+        "refresh page"
+      );
     }
-  } catch (e) {
-    console.log(e);
-    failedToLoad(
-      "div",
-      "No connection. Check your connection and try again.",
-      "refresh page"
-    );
+  } else {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        return response.json();
+      } else {
+        const message = `HTTP: ${response.status}, ${response.statusText}`;
+        failedToLoad("div", message, "refresh page");
+      }
+    } catch (e) {
+      console.log(e);
+      failedToLoad(
+        "div",
+        "No connection. Check your connection and try again.",
+        "refresh page"
+      );
+    }
   }
 };
 
@@ -64,7 +83,7 @@ export function clearClasses(className) {
     const nodeList = document.querySelector(`tr[class="${className}"]`);
     nodeList.classList.remove(className);
   } catch (e) {}
-};
+}
 
 export const clearRestaurantList = (element) => {
   element.innerHTML = "";

@@ -31,9 +31,21 @@ export const signUpDialogBuilder = () => {
   const inputUserName = document.getElementById("username-input-signup");
   const inputPassword = document.getElementById("password-input-signup");
   const inputEmail = document.getElementById("email-input-signup");
-  document.getElementById("submit-sign-up").addEventListener("click", (e) => {
+  document.getElementById("submit-sign-up").addEventListener("click", async (e) => {
     e.preventDefault();
-  })
+    if (checkUsername(inputUserName.value)) {
+      const userObject = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: inputUserName.value,
+          password: inputPassword.value,
+          email: inputEmail.value,
+        }),
+      };
+      await fetchData(userUrl, userObject);
+    }
+  });
   document.getElementById("close-sign-up").addEventListener("click", (e) => {
     e.preventDefault();
     signUpDialog.close();
@@ -47,9 +59,8 @@ export const signUpDialogBuilder = () => {
   signUpDialog.showModal();
 };
 
-
 async function checkUsername(userName) {
-  const url = userUrl + '/available/' + userName;
+  const url = userUrl + "/available/" + userName;
   try {
     return await fetchData(url);
   } catch (e) {
