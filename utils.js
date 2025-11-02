@@ -34,7 +34,7 @@ export function userLocator() {
   });
 }
 
-export const fetchData = async (url) => {
+export const fetchData = async (url, options) => {
   try {
     const response = await fetch(url);
     if (response.ok) {

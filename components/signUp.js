@@ -1,14 +1,14 @@
-import { signUpDialog } from "../variables.js";
-import { revealPasswordButton } from "../utils.js";
+import { signUpDialog, userUrl } from "../variables.js";
+import { fetchData, revealPasswordButton } from "../utils.js";
 
 export const signUpDialogBuilder = () => {
-  const signUpDialogHTML = `
+  const signUpHTML = `
 <div>
  <button id="close-sign-up">X</button>
   <form class="sign-up-form">
     <div>
     <label for="">Enter username: </label>
-    <input type="text" placeholder="username" required />
+    <input id="username-input-signup" type="text" placeholder="username" required />
     </div>
 
     <div>
@@ -20,22 +20,39 @@ export const signUpDialogBuilder = () => {
 
     <div>
     <label for="">Enter email: </label>
-    <input type="email" placeholder="email"/>
+    <input type="email" placeholder="email" id="email-input-signup"/>
     <button id="submit-sign-up">Sign up</button>
     </div>
   </form>
 </div>
 `;
-  signUpDialog.innerHTML = signUpDialogHTML;
+  signUpDialog.innerHTML = signUpHTML;
   signUpDialog.class = "sign-up-form";
-  document.getElementById("close-sign-up").addEventListener('click', (e) => {
+  const inputUserName = document.getElementById("username-input-signup");
+  const inputPassword = document.getElementById("password-input-signup");
+  const inputEmail = document.getElementById("email-input-signup");
+  document.getElementById("submit-sign-up").addEventListener("click", (e) => {
+    e.preventDefault();
+  })
+  document.getElementById("close-sign-up").addEventListener("click", (e) => {
     e.preventDefault();
     signUpDialog.close();
-  })
-    revealPasswordButton(
-      document.getElementById("show-password-sign-up"),
-      document.getElementById("password-input-signup"),
-      document.getElementById("sign-up-image")
-    );
-    signUpDialog.showModal();
+  });
+  revealPasswordButton(
+    document.getElementById("show-password-sign-up"),
+    inputPassword,
+    document.getElementById("sign-up-image")
+  );
+
+  signUpDialog.showModal();
 };
+
+
+async function checkUsername(userName) {
+  const url = userUrl + '/available/' + userName;
+  try {
+    return await fetchData(url);
+  } catch (e) {
+    console.log(e);
+  }
+}

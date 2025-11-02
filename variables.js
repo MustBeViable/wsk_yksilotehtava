@@ -1,4 +1,3 @@
-
 export const body = document.querySelector("main");
 export const navBar = document.querySelector("nav");
 export const restaurantsTable = document.getElementById("restaurants-scroll");
@@ -10,6 +9,9 @@ export let map = L.map("map");
 
 export const restaurantListUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants";
+
+export const userUrl =
+  "https://media2.edu.metropolia.fi/restaurant/api/v1/api/v1/users";
 
 //caches restauranlist to only one API call per reload.
 let restaurantsCache = [];
@@ -28,5 +30,5 @@ export const userIcon = L.icon({
   iconUrl: "./resources/images/user-pin.png",
   iconSize: [32, 32],
   iconAnchor: [16, 32],
-  popupAnchor: [0, -32]
+  popupAnchor: [0, -32],
 });
