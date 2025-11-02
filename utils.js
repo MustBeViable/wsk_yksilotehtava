@@ -5,11 +5,9 @@ import {
   rowById,
   markerById,
 } from "./variables.js";
-import {
-  restaurantRow
-} from "./components/components.js";
+import { restaurantRow } from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
-import { panMapTo } from "./components/mapControl.js";
+import { buildMarkerPopUp, panMapTo } from "./components/mapControl.js";
 
 export function userLocator() {
   return new Promise((resolve, reject) => {
@@ -35,7 +33,6 @@ export function userLocator() {
     );
   });
 }
-
 
 export const fetchData = async (url) => {
   try {
@@ -91,26 +88,19 @@ export const addElements = (array) => {
       tr.addEventListener("click", async () => {
         clearClasses();
         tr.classList.add("highlight");
-        const marker = markerById.get(restaurant._id);
-        /*
-        if (marker) {
-          marker.openPopup();
-          while (document.getElementById(buttonIdDaily) == null) {
-            //this forces to wait until button element have been created
-          }
-          document
-            .getElementById(buttonIdDaily)
-            .addEventListener("click", (e) => {
-              e.preventDefault();
-              menuElement(restaurant, "daily", "fi");
-            });
-        }
-*/
+        const markerObject = await markerById.get(restaurant._id);
+        buildMarkerPopUp(
+          markerObject.restaurantInfo,
+          markerObject.mapMarker,
+          markerObject.restaurantLat,
+          markerObject.restaurantLong
+        );
         map.setView([
           restaurant.location.coordinates[1],
           restaurant.location.coordinates[0],
         ]);
         panMapTo(restaurant);
+        markerObject.mapMarker.openPopup();
       });
     });
   }

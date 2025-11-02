@@ -1,17 +1,8 @@
-import {
-  map,
-  body,
-  rowById,
-  markerById,
-  userIcon,
-} from "../variables.js";
+import { map, body, rowById, markerById, userIcon } from "../variables.js";
 
 import { userLocator, clearClasses } from "../utils.js";
 
-import {
-  menuElement,
-} from "./components.js";
-
+import { menuElement } from "./components.js";
 
 export function panMapTo(restaurant) {
   const offsetLong = Math.round(map.getSize().y * 0.2);
@@ -19,7 +10,6 @@ export function panMapTo(restaurant) {
   const tr = rowById.get(restaurant._id);
 }
 
-//muokkaa palauttamaan olio mikä tallentuu Map() interfaceen ja saadaan sit buttonit toimii ees taas
 export function buildMarkerPopUp(restaurant, marker, lat, long) {
   const buttonIdDaily = restaurant._id + "-daily";
   const buttonIdWeekly = restaurant._id + "-weekly";
@@ -36,10 +26,7 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
     keepInView: false,
     animate: false,
   });
-  marker.on("click", () => {
-    map.setView([lat, long], 15);
-    panMapTo(restaurant);
-    marker.openPopup();
+  marker.on("popupopen", (e) => {
     while (document.getElementById(buttonIdDaily) == null) {
       //this forces to wait until button element have been created
     }
@@ -47,6 +34,11 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
       e.preventDefault();
       menuElement(restaurant, "daily", "fi");
     });
+  });
+  marker.on("click", () => {
+    map.setView([lat, long], 15);
+    panMapTo(restaurant);
+    marker.openPopup();
     const tr = rowById.get(restaurant._id);
     if (tr) {
       clearClasses();
@@ -55,20 +47,26 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
       tr.focus({ preventScroll: true });
     }
   });
-  return {}
 }
 
 export async function setMarkers(list, userCoordinates) {
   const div = document.createElement("div");
   body.appendChild(div);
   console.log(userCoordinates);
+  const markerObject = {};
   L.marker(userCoordinates, { icon: userIcon }).addTo(map);
   for (let i = 0; i < list.length; i++) {
     const long = list[i].location.coordinates[0];
     const lat = list[i].location.coordinates[1];
     const marker = L.marker([lat, long]).addTo(map);
     buildMarkerPopUp(list[i], marker, lat, long);
-    markerById.set(list[i]._id, marker);
+    markerObject[list[i]._id] = {
+      restaurantInfo: list[i],
+      mapMarker: marker,
+      restaurantLat: lat,
+      restaurantLong: long,
+    };
+    markerById.set(list[i]._id, markerObject[list[i]._id]);
   }
 }
 
