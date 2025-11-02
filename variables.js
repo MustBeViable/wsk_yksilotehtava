@@ -10,8 +10,6 @@ export let map = L.map("map");
 
 export const restaurantListUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants";
-export const restaurantMenuUrl =
-  "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants/daily/";
 
 //caches restauranlist to only one API call per reload.
 let restaurantsCache = [];

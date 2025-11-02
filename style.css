@@ -1,11 +1,12 @@
 :root {
-  --color-primary: #1a73e8; /* Sininen – pääväri */
-  --color-secondary: #00c853; /* Vihreä – korostus */
-  --color-highlight: #ff6d00; /* Oranssi – CTA ja highlight */
-  --color-bg: #f5f7fa; /* Vaalea tausta */
-  --color-text: #1a1a1a; /* Teksti */
-  --color-card: #ffffff; /* Kortit, dialogit */
-  --color-border: #d1d5db; /* Kevyt harmaa */
+  --color-primary: #1a73e8;
+  --color-secondary: #00c853;
+  --color-highlight: #ff6d00;
+  --color-bg: #f5f7fa;
+  --color-text: #1a1a1a;
+  --color-card: #ffffff;
+  --color-border: #d1d5db;
+  --main-component-height: 350px;
 }
 
 body {
@@ -49,7 +50,7 @@ dialog::backdrop {
 }
 
 #map {
-  height: 300px;
+  height: var(--main-component-height);
   width: auto;
   border: 2px solid #000000;
   border-radius: 15px;
@@ -58,7 +59,7 @@ dialog::backdrop {
 .scroll-y {
   border: 2px solid #000000;
   border-radius: 15px;
-  max-height: 300px;
+  max-height: var(--main-component-height);
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -115,12 +116,16 @@ td {
   font-weight: bolder;
 }
 
+.highlight-menu {
+  background-color: rgba(26, 115, 232, 0.15);
+  font-weight: bolder;
+}
+
 @media (min-width: 600px) {
   .scroll-y {
     border: 2px solid #000000;
     border-radius: 15px;
     width: 600px;
-    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -131,7 +136,6 @@ td {
   #map {
     border: 2px solid #000000;
     border-radius: 15px;
-    height: 300px;
     width: 600px;
   }
 

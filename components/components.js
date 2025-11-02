@@ -1,3 +1,7 @@
+import { restaurantListUrl, restaurantMenuDialog } from "../variables.js";
+import { clearClasses, fetchData } from "../utils.js";
+import { failedToLoad } from "./error_component.js";
+
 const restaurantRow = (restaurant) => {
   const { _id, name, company } = restaurant;
   const tr = document.createElement("tr");
@@ -77,4 +81,70 @@ const restaurantModal = (restaurant, menu) => {
   return restaurantHTML + menuHTML;
 };
 
-export { restaurantRow, restaurantModal };
+const menuElement = async (restaurant, option, lang) => {
+  let url = restaurantListUrl + `/${option}/` + restaurant._id + `/${lang}`;
+  const menu = await fetchData(url);
+  switch (option) {
+    case "daily": {
+      if (menu?.courses?.length) {
+        restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
+        restaurantMenuDialog.showModal();
+        document
+          .getElementById("close-modal")
+          ?.addEventListener("click", () => restaurantMenuDialog.close());
+      } else {
+        failedToLoad(
+          "dialog",
+          "No menu found, check your connection and try again.",
+          "close"
+        );
+      }
+      break;
+    }
+    case "weekly": {
+      if (menu?.days.length) {
+        const weeklyMenuHTML = `
+        <div id="weekly">
+        <button id="close-modal-weekly">X</button>
+        <table id="${restaurant._id}-weekly">
+        </table>
+        </div>
+        <div id="days-menu"></div>
+        `;
+        restaurantMenuDialog.innerHTML = weeklyMenuHTML;
+        document
+          .getElementById("close-modal-weekly")
+          ?.addEventListener("click", () => restaurantMenuDialog.close());
+        let menuDateId = restaurant._id;
+        const dateTable = document.getElementById(restaurant._id + "-weekly");
+        const daysMenuDiv = document.getElementById('days-menu');
+        menu.days.forEach((day) => {
+          const tr = document.createElement("tr");
+          menuDateId += 1;
+          const td = document.createElement("td");
+          tr.id = menuDateId;
+          td.innerHTML = day.date;
+          tr.appendChild(td);
+          dateTable.appendChild(tr);
+          tr.addEventListener("click", (e) => {
+            daysMenuDiv.innerHTML = "";
+            clearClasses("highlight-menu");
+            tr.classList.add("highlight-menu");
+            const daysMenuHTML = restaurantModal(restaurant, day);
+            daysMenuDiv.innerHTML = daysMenuHTML;
+          });
+        });
+        restaurantMenuDialog.showModal();
+      } else {
+        failedToLoad(
+          "dialog",
+          "No menu found, check your connection and try again.",
+          "close"
+        );
+      }
+      break;
+    }
+  }
+};
+
+export { restaurantRow, restaurantModal, menuElement };

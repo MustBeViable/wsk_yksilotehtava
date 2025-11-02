@@ -1,16 +1,14 @@
 import {
   map,
-  body,
   restaurantsTable,
-  restaurantMenuDialog,
-  restaurantMenuUrl,
   getRestaurantsCache,
   rowById,
   markerById,
-  userIcon
 } from "./variables.js";
-import { restaurantModal, restaurantRow } from "./components/components.js";
+import { restaurantRow } from "./components/components.js";
 import { failedToLoad } from "./components/error_component.js";
+import { buildMarkerPopUp, panMapTo } from "./components/mapControl.js";
+
 export function userLocator() {
   return new Promise((resolve, reject) => {
     if (!("geolocation" in navigator)) {
@@ -34,51 +32,6 @@ export function userLocator() {
       }
     );
   });
-}
-export async function getUserLocation() {
-  try {
-    const userCoords = await userLocator();
-    map.setView([userCoords.lat, userCoords.long], 13);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution:
-        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
-    return [userCoords.lat, userCoords.long]
-  } catch (e) {
-    console.log(e.message);
-  }
-}
-
-export async function setMarkers(list, userCoordinates) {
-  const div = document.createElement("div");
-  body.appendChild(div);
-  console.log(userCoordinates);
-  L.marker(userCoordinates, {icon: userIcon}).addTo(map);
-  for (let i = 0; i < list.length; i++) {
-    const long = list[i].location.coordinates[0];
-    const lat = list[i].location.coordinates[1];
-    const marker = L.marker([lat, long]).addTo(map);
-    markerById.set(list[i]._id, marker);
-    const popUpHTML = `
-    <div class="marker-poput">
-      <h5>${list[i].name}</h5>
-      <p>${list[i].address}</p>
-    </div>
-    `;
-    marker.bindPopup(popUpHTML);
-    marker.on("click", () => {
-      marker.openPopup();
-      map.setView([lat, long], 15);
-      const tr = rowById.get(list[i]._id);
-      if (tr) {
-        clearClasses();
-        tr.classList.add("highlight");
-        tr.scrollIntoView({ behavior: "smooth", block: "center" });
-        tr.focus({ preventScroll: true });
-      }
-    });
-  }
 }
 
 export const fetchData = async (url) => {
@@ -106,10 +59,10 @@ export const sortList = (array) => {
   );
 };
 
-export const clearClasses = () => {
+export function clearClasses(className) {
   try {
-    const nodeList = document.querySelector('tr[class="highlight"]');
-    nodeList.classList.remove("highlight");
+    const nodeList = document.querySelector(`tr[class="${className}"]`);
+    nodeList.classList.remove(className);
   } catch (e) {}
 };
 
@@ -133,30 +86,21 @@ export const addElements = (array) => {
       restaurantsTable.appendChild(tr);
       rowById.set(restaurant._id, tr);
       tr.addEventListener("click", async () => {
-        clearClasses();
+        clearClasses("higlight");
         tr.classList.add("highlight");
-        let url = restaurantMenuUrl + restaurant._id + "/fi";
-        const menu = await fetchData(url);
-        map.setView(
-          [
-            restaurant.location.coordinates[1],
-            restaurant.location.coordinates[0],
-          ],
-          13
+        const markerObject = await markerById.get(restaurant._id);
+        buildMarkerPopUp(
+          markerObject.restaurantInfo,
+          markerObject.mapMarker,
+          markerObject.restaurantLat,
+          markerObject.restaurantLong
         );
-        if (menu?.courses?.length) {
-          restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
-          restaurantMenuDialog.showModal();
-          document
-            .getElementById("close-modal")
-            ?.addEventListener("click", () => restaurantMenuDialog.close());
-        } else {
-          failedToLoad(
-            "dialog",
-            "No menu found, check your connection and try again.",
-            "close"
-          );
-        }
+        map.setView([
+          restaurant.location.coordinates[1],
+          restaurant.location.coordinates[0],
+        ]);
+        panMapTo(restaurant);
+        markerObject.mapMarker.openPopup();
       });
     });
   }
