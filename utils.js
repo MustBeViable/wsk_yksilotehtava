@@ -59,10 +59,10 @@ export const sortList = (array) => {
   );
 };
 
-export const clearClasses = () => {
+export function clearClasses(className) {
   try {
-    const nodeList = document.querySelector('tr[class="highlight"]');
-    nodeList.classList.remove("highlight");
+    const nodeList = document.querySelector(`tr[class="${className}"]`);
+    nodeList.classList.remove(className);
   } catch (e) {}
 };
 
@@ -86,7 +86,7 @@ export const addElements = (array) => {
       restaurantsTable.appendChild(tr);
       rowById.set(restaurant._id, tr);
       tr.addEventListener("click", async () => {
-        clearClasses();
+        clearClasses("higlight");
         tr.classList.add("highlight");
         const markerObject = await markerById.get(restaurant._id);
         buildMarkerPopUp(

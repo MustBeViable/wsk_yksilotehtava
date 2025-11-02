@@ -34,6 +34,10 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
       e.preventDefault();
       menuElement(restaurant, "daily", "fi");
     });
+    document.getElementById(buttonIdWeekly).addEventListener("click", (e) => {
+      e.preventDefault();
+      menuElement(restaurant, "weekly", "fi");
+    });
   });
   marker.on("click", () => {
     map.setView([lat, long], 15);
