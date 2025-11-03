@@ -28,8 +28,8 @@ export const defaultNavBar = () => {
 export const logInComponent = () => {
   const logInNavBar = `
     <form action="">
-      <input id="username-input-login" type="text" placeholder="username" />
-      <input id="password-input-login" type="password" placeholder="password" />
+      <input id="username-input-login" type="text" minlength="3" maxlength="24" placeholder="username" required/>
+      <input id="password-input-login" type="password" minlength="3" maxlength="24" placeholder="password" required />
       <button id="show-password-log-in">
         <img id="log-in-image" src="./resources/images/eye_8276553.png" class="password-img" />
       </button>

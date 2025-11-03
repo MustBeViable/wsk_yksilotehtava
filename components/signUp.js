@@ -10,12 +10,12 @@ export const signUpDialogBuilder = () => {
   <form class="sign-up-form">
     <div>
     <label for="">Enter username: </label>
-    <input id="username-input-signup" type="text" placeholder="username" required />
+    <input id="username-input-signup" type="text" placeholder="username" minlength="3" maxlength="24" required />
     </div>
 
     <div>
     <label for="">Enter password: </label>
-    <input id="password-input-signup" type="password" placeholder="password" required/>
+    <input id="password-input-signup" type="password" minlength="3" maxlength="24" placeholder="password" required/>
     <button id="show-password-sign-up"><img id="sign-up-image" 
     src="./resources/images/eye_8276553.png" alt="show password" class="password-img"></button>
     </div>
