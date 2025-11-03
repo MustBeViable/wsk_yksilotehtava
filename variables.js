@@ -11,7 +11,7 @@ export const restaurantListUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants";
 
 export const userUrl =
-  "https://media2.edu.metropolia.fi/restaurant/api/v1/api/v1/users";
+  "https://media2.edu.metropolia.fi/restaurant/api/v1/users";
 
 //caches restauranlist to only one API call per reload.
 let restaurantsCache = [];
