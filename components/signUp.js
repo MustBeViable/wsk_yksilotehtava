@@ -31,21 +31,37 @@ export const signUpDialogBuilder = () => {
   const inputUserName = document.getElementById("username-input-signup");
   const inputPassword = document.getElementById("password-input-signup");
   const inputEmail = document.getElementById("email-input-signup");
-  document.getElementById("submit-sign-up").addEventListener("click", async (e) => {
-    e.preventDefault();
-    if (checkUsername(inputUserName.value)) {
-      const userObject = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: inputUserName.value,
-          password: inputPassword.value,
-          email: inputEmail.value,
-        }),
-      };
-      await fetchData(userUrl, userObject);
-    }
-  });
+  const p = document.createElement("p");
+  p.style.fontWeight = "bold";
+  p.style.color = "red";
+  document
+    .getElementById("submit-sign-up")
+    .addEventListener("click", async (e) => {
+      e.preventDefault();
+      const isAvailable = await checkUsername(inputUserName.value);
+      if (isAvailable.available) {
+        const userObject = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: inputUserName.value.trim(),
+            password: inputPassword.value.trim(),
+            email: inputEmail.value,
+          }),
+        };
+        await fetchData(userUrl, userObject);
+        signUpDialog.close();
+        //add autologin here!
+      } else if (isAvailable.HTTPcode === 400) {
+        p.innerText = "";
+        p.innerText = `Username ${inputUserName.value} is not valid. Use something else.`;
+        signUpDialog.appendChild(p);
+      } else if (!isAvailable.available) {
+        p.innerText = "";
+        p.innerText = `Username ${inputUserName.value} exists already. Use something else.`;
+        signUpDialog.appendChild(p);
+      }
+    });
   document.getElementById("close-sign-up").addEventListener("click", (e) => {
     e.preventDefault();
     signUpDialog.close();
@@ -62,8 +78,10 @@ export const signUpDialogBuilder = () => {
 async function checkUsername(userName) {
   const url = userUrl + "/available/" + userName;
   try {
-    return await fetchData(url);
+    const response = await fetchData(url).json();
+    return { available: response.available, HTTPcode: response.status };
   } catch (e) {
-    console.log(e);
+    //console.log(e);
+    return { HTTPcode: e.status };
   }
 }
