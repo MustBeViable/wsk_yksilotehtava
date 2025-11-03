@@ -13,6 +13,9 @@ export const restaurantListUrl =
 export const userUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/users";
 
+export const logInUrl =
+  "https://media2.edu.metropolia.fi/restaurant/api/v1/auth/login";
+
 //caches restauranlist to only one API call per reload.
 let restaurantsCache = [];
 
@@ -25,6 +28,22 @@ export function setRestaurantsCache(restauranlist) {
 
 export const rowById = new Map();
 export const markerById = new Map();
+
+let loggedInUser = {
+  token: "",
+  username: "",
+  email: "",
+  favouriteRestaurant: "",
+  avatar: ""
+};
+
+export function getLoggedInUser() {
+  return loggedInUser;
+}
+
+export function setLoggedInUser(newLoggedInUser) {
+  loggedInUser = newLoggedInUser;
+}
 
 export const userIcon = L.icon({
   iconUrl: "./resources/images/user-pin.png",

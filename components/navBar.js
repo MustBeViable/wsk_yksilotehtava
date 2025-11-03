@@ -1,6 +1,7 @@
-import { navBar } from "../variables.js";
+import { getLoggedInUser, navBar } from "../variables.js";
 import { revealPasswordButton } from "../utils.js";
 import { signUpDialogBuilder } from "./signUp.js";
+import { logIn } from "./logIn.js";
 
 export const navBarBuilder = (elements) => {
   navBar.innerHTML = elements;
@@ -18,32 +19,53 @@ export const defaultNavBar = () => {
     e.preventDefault();
     logInComponent();
   });
-  signUpButton.addEventListener('click', (e) => {
+  signUpButton.addEventListener("click", (e) => {
     e.preventDefault();
     signUpDialogBuilder();
-  })
+  });
 };
 
 export const logInComponent = () => {
   const logInNavBar = `
     <form action="">
-      <input type="text" placeholder="username" />
+      <input id="username-input-login" type="text" placeholder="username" />
       <input id="password-input-login" type="password" placeholder="password" />
       <button id="show-password-log-in">
         <img id="log-in-image" src="./resources/images/eye_8276553.png" class="password-img" />
       </button>
+      <button id="log-in">Log in</button>
     </form>
     <button id="sign-up-button">or sign up</button>
   `;
   navBarBuilder(logInNavBar);
+  const inputPassword = document.getElementById("password-input-login");
+  const inputUserName = document.getElementById("username-input-login");
   revealPasswordButton(
     document.getElementById("show-password-log-in"),
-    document.getElementById("password-input-login"),
+    inputPassword,
     document.getElementById("log-in-image")
   );
   const signUpButton = document.getElementById("sign-up-button");
-    signUpButton.addEventListener('click', (e) => {
+  const logInButton = document.getElementById("log-in");
+  signUpButton.addEventListener("click", (e) => {
     e.preventDefault();
     signUpDialogBuilder();
+  });
+  logInButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const logInSuccess = await logIn(inputUserName.value.trim(), inputPassword.value.trim());
+    if (logInSuccess) {
+      loggedInNavBar();
+    }
   })
+};
+
+export const loggedInNavBar = () => {
+  const loggedInUser = getLoggedInUser();
+  console.log(loggedInUser)
+  const loggedInHTML = `
+  <p>${loggedInUser.username}</p>
+  <img id="profile-picture" src"${loggedInUser.profileImg}/>
+  `;
+  navBarBuilder(loggedInHTML);
 };

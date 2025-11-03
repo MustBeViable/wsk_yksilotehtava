@@ -1,5 +1,7 @@
 import { signUpDialog, userUrl } from "../variables.js";
 import { fetchData, revealPasswordButton } from "../utils.js";
+import { logIn } from "./logIn.js";
+import { loggedInNavBar } from "./navBar.js";
 
 export const signUpDialogBuilder = () => {
   const signUpHTML = `
@@ -50,13 +52,15 @@ export const signUpDialogBuilder = () => {
           }),
         };
         await fetchData(userUrl, userObject);
+        await logIn(inputUserName.value.trim(), inputPassword.value.trim());
+        loggedInNavBar();
         signUpDialog.close();
-        //add autologin here!
       } else if (isAvailable.HTTPcode === 400) {
         p.innerText = "";
         p.innerText = `Username ${inputUserName.value} is not valid. Use something else.`;
         signUpDialog.appendChild(p);
       } else if (!isAvailable.available) {
+        console.log(isAvailable.available);
         p.innerText = "";
         p.innerText = `Username ${inputUserName.value} exists already. Use something else.`;
         signUpDialog.appendChild(p);
@@ -78,10 +82,14 @@ export const signUpDialogBuilder = () => {
 async function checkUsername(userName) {
   const url = userUrl + "/available/" + userName;
   try {
-    const response = await fetchData(url).json();
+    const response = await fetchData(url, {
+      cache: "no-store",
+      headers: { "Cache-Control": "no-cache" },
+    });
+    console.log(response);
     return { available: response.available, HTTPcode: response.status };
   } catch (e) {
-    //console.log(e);
+    console.log(e);
     return { HTTPcode: e.status };
   }
 }
