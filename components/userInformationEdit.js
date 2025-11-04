@@ -18,7 +18,6 @@ export function createUserDialog() {
 export function openUserSetting() {
   const dialog = userProfileDialog;
   dialog.innerHTML = createUserDialog();
-  dialog.showModal();
   const changeUserInfo = document.getElementById("change-user-information");
   const closeDialog = document.getElementById("close-user-setting");
   closeDialog.addEventListener("click", (e) => {
@@ -30,6 +29,7 @@ export function openUserSetting() {
     changeUserInfoDialog();
     dialog.close();
   });
+  dialog.showModal();
 }
 
 export async function changeUserInfoDialog() {
