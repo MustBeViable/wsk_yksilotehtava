@@ -150,9 +150,13 @@ td {
 }
 
 @media (min-width: 1024px) {
-
   .nav-bar {
     padding-left: 25%;
+  }
+
+  footer {
+    padding-left: 25%;
+    padding-right: 25%;
   }
 
   .page {
