@@ -80,8 +80,9 @@ export const sortList = (array) => {
 
 export function clearClasses(className) {
   try {
-    const nodeList = document.querySelector(`tr[class="${className}"]`);
-    nodeList.classList.remove(className);
+    document.querySelectorAll(`.${className}`).forEach((el) => {
+      el.classList.remove(className);
+    });
   } catch (e) {}
 }
 
@@ -105,8 +106,6 @@ export const addElements = (array) => {
       restaurantsTable.appendChild(tr);
       rowById.set(restaurant._id, tr);
       tr.addEventListener("click", async () => {
-        clearClasses("higlight");
-        tr.classList.add("highlight");
         const markerObject = await markerById.get(restaurant._id);
         buildMarkerPopUp(
           markerObject.restaurantInfo,
@@ -119,6 +118,8 @@ export const addElements = (array) => {
           restaurant.location.coordinates[0],
         ]);
         panMapTo(restaurant);
+        clearClasses("highlight");
+        tr.classList.add("highlight");
         markerObject.mapMarker.openPopup();
       });
     });

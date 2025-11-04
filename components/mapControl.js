@@ -41,14 +41,14 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
   });
   marker.on("click", () => {
     map.setView([lat, long], 15);
-    panMapTo(restaurant)
+    panMapTo(restaurant);
     marker.openPopup();
     const tr = rowById.get(restaurant._id);
     if (tr) {
-      clearClasses();
-      tr.classList.add("highlight");
       tr.scrollIntoView({ behavior: "smooth", block: "center" });
       tr.focus({ preventScroll: true });
+      clearClasses("highlight");
+      tr.classList.add("highlight");
     }
   });
 }
