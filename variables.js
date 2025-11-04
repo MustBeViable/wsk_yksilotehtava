@@ -19,6 +19,9 @@ export const userUrl =
 export const logInUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/auth/login";
 
+export const avatarUrl = 
+  "https://media2.edu.metropolia.fi/restaurant/uploads/";
+
 //caches restauranlist to only one API call per reload.
 let restaurantsCache = [];
 
@@ -37,7 +40,7 @@ let loggedInUser = {
   username: "",
   email: "",
   favouriteRestaurant: "",
-  avatar: ""
+  avatar: "",
 };
 
 export function getLoggedInUser() {

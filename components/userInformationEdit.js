@@ -1,5 +1,12 @@
-import { getLoggedInUser, bodyElement, userProfileDialog } from "../variables.js";
-
+import { fetchData } from "../utils.js";
+import {
+  getLoggedInUser,
+  bodyElement,
+  userProfileDialog,
+  userUrl,
+} from "../variables.js";
+import { userInfoByToken } from "./logIn.js";
+import { loggedInNavBar } from "./navBar.js";
 
 export function createUserDialog() {
   const userInfo = getLoggedInUser();
@@ -7,9 +14,9 @@ export function createUserDialog() {
   <div id="user-profile">
     <button id="close-user-setting">X</button>
     <p>${userInfo.username}</p>
-    <img src="${userInfo.email}" alt="profile picture" />
+    <img class="profile-picture" src="${userInfo.avatar}" alt="profile picture" />
     <p id="favourite-restaurant"></p>
-    <button id="change-user-information"></button>
+    <button id="change-user-information">Change profile</button>
   </div>
   `;
   return userDialogHTML;
@@ -45,7 +52,6 @@ export async function changeUserInfoDialog() {
     placeholder="new username"
     minlength="3"
     maxlength="24"
-    required
   />
 
   <label for="email">E-mail</label>
@@ -56,20 +62,119 @@ export async function changeUserInfoDialog() {
     placeholder="new email"
     inputmode="email"
     autocomplete="email"
-    required
+  />
+
+  <label for="password">password</label>
+  <input
+    id="password"
+    name="password"
+    type="password"
+    placeholder="new password"
+    minlength="3"
+    maxlength="24"
   />
 
     <label for="file">Set avatar: </label>
   <input id="avatar" name="file" type="file" placeholder="select file" />
+  <p id="response"></p>
 
   <div>
-    <button type="submit">Tallenna</button>
-    <button id="close-dialog-user-settings">Peruuta</button>
+    <button id="save-new-info">Save</button>
+    <button id="close-dialog-user-settings">Cancel</button>
   </div>
 </form>
     `;
-  const userSettingsDialog = document.createElement("dialog");
-  dialog.innerHTML = profileSettingsDialog;
-  bodyElement.appendChild(userSettingsDialog);
-  dialog.showModal();
+  const userSettingsDialog = document.getElementById("user-settings-dialog");
+  const div = document.createElement("div");
+  div.innerHTML = profileSettingsDialog;
+  userSettingsDialog.appendChild(div);
+
+  const saveNewInfoButton = document.getElementById("save-new-info");
+  const cancelNewInfo = document.getElementById("close-dialog-user-settings");
+  const responseMessage = document.getElementById("response");
+  const avatarInput = document.getElementById("avatar");
+
+  const newUserNameInput = document.getElementById("user-name");
+  const newEmailInput = document.getElementById("email");
+  const newPasswordInput = document.getElementById("password");
+  saveNewInfoButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const file = avatarInput.files?.[0];
+    if (file) {
+      const res = await uploadAvatar(file);
+      await userInfoByToken(getLoggedInUser().token)
+    }
+    if (newUserNameInput.value || newPasswordInput.value || newEmailInput.value){
+    const responseData = await sendDataToApi(
+      newUserNameInput.value.trim(),
+      newPasswordInput.value.trim(),
+      newEmailInput.value.trim()
+    );
+    if (responseData.data) {
+      responseMessage.textContent = "";
+      responseMessage.textContent = "Saved successfully";
+    } else {
+      responseMessage.textContent = "";
+      responseMessage.textContent =
+        "Something went wrong, check your connections";
+    }}
+  });
+  cancelNewInfo.addEventListener("click", (e) => {
+    e.preventDefault();
+    userProfileDialog.innerHTML = "";
+    userSettingsDialog.close();
+    loggedInNavBar();
+  });
+  userSettingsDialog.showModal();
+}
+
+export async function sendDataToApi(newUsername, newPassword, newEmail) {
+  const loggedInUser = getLoggedInUser();
+  let optionsJson = {};
+  if (newPassword) {
+    optionsJson = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${loggedInUser.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: newUsername ? newUsername : loggedInUser.username,
+        password: newPassword,
+        email: newEmail ? newEmail : loggedInUser.email,
+      }),
+    };
+  } else {
+    optionsJson = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: newUsername ? newUsername : loggedInUser.username,
+        email: newEmail ? newEmail : loggedInUser.email,
+      }),
+    };
+  }
+  const data = await fetchData(userUrl, optionsJson);
+  return data;
+}
+
+export async function uploadAvatar(file) {
+  if (!file) return null;
+
+  const { token } = getLoggedInUser();
+  const form = new FormData();
+  form.append("avatar", file);
+
+  const options = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: form,
+  };
+
+  return await fetchData(`${userUrl}/avatar`, options);
 }

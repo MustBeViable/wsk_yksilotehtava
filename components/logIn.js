@@ -1,5 +1,5 @@
 import { fetchData } from "../utils.js";
-import { setLoggedInUser, logInUrl, userUrl } from "../variables.js";
+import { setLoggedInUser, logInUrl, userUrl, avatarUrl } from "../variables.js";
 
 export const logIn = async (userName, password) => {
   const option = {
@@ -33,12 +33,16 @@ export async function userInfoByToken(token) {
   };
   try {
     const data = await fetchData(url, option);
+    let userAvatarUrl;
+    if (data.avatar) {
+      userAvatarUrl = avatarUrl + data.avatar;
+    }
     setLoggedInUser({
       token: token,
       username: data.username,
       email: data.email,
       favouriteRestaurant: data.favouriteRestaurant ?? "",
-      avatar: data.avatar ?? ""
+      avatar: userAvatarUrl ?? ""
     });
   } catch (error) {}
 }
