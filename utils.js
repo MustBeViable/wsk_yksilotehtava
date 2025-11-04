@@ -34,22 +34,41 @@ export function userLocator() {
   });
 }
 
-export const fetchData = async (url) => {
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      return response.json();
-    } else {
-      const message = `HTTP: ${response.status}, ${response.statusText}`;
-      failedToLoad("div", message, "refresh page");
+export const fetchData = async (url, options) => {
+  if (options == null) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        const message = `HTTP: ${response.status}, ${response.statusText}`;
+        failedToLoad("div", message, "refresh page");
+      }
+    } catch (e) {
+      console.log(e);
+      failedToLoad(
+        "div",
+        "No connection. Check your connection and try again.",
+        "refresh page"
+      );
     }
-  } catch (e) {
-    console.log(e);
-    failedToLoad(
-      "div",
-      "No connection. Check your connection and try again.",
-      "refresh page"
-    );
+  } else {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        return response.json();
+      } else {
+        const message = `HTTP: ${response.status}, ${response.statusText}`;
+        failedToLoad("div", message, "refresh page");
+      }
+    } catch (e) {
+      console.log(e);
+      failedToLoad(
+        "div",
+        "No connection. Check your connection and try again.",
+        "refresh page"
+      );
+    }
   }
 };
 
@@ -61,10 +80,11 @@ export const sortList = (array) => {
 
 export function clearClasses(className) {
   try {
-    const nodeList = document.querySelector(`tr[class="${className}"]`);
-    nodeList.classList.remove(className);
+    document.querySelectorAll(`.${className}`).forEach((el) => {
+      el.classList.remove(className);
+    });
   } catch (e) {}
-};
+}
 
 export const clearRestaurantList = (element) => {
   element.innerHTML = "";
@@ -86,8 +106,6 @@ export const addElements = (array) => {
       restaurantsTable.appendChild(tr);
       rowById.set(restaurant._id, tr);
       tr.addEventListener("click", async () => {
-        clearClasses("higlight");
-        tr.classList.add("highlight");
         const markerObject = await markerById.get(restaurant._id);
         buildMarkerPopUp(
           markerObject.restaurantInfo,
@@ -100,6 +118,8 @@ export const addElements = (array) => {
           restaurant.location.coordinates[0],
         ]);
         panMapTo(restaurant);
+        clearClasses("highlight");
+        tr.classList.add("highlight");
         markerObject.mapMarker.openPopup();
       });
     });

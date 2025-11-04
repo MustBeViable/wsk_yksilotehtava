@@ -45,10 +45,10 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
     marker.openPopup();
     const tr = rowById.get(restaurant._id);
     if (tr) {
-      clearClasses();
-      tr.classList.add("highlight");
       tr.scrollIntoView({ behavior: "smooth", block: "center" });
       tr.focus({ preventScroll: true });
+      clearClasses("highlight");
+      tr.classList.add("highlight");
     }
   });
 }

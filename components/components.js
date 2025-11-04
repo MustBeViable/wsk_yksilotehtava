@@ -117,7 +117,7 @@ const menuElement = async (restaurant, option, lang) => {
           ?.addEventListener("click", () => restaurantMenuDialog.close());
         let menuDateId = restaurant._id;
         const dateTable = document.getElementById(restaurant._id + "-weekly");
-        const daysMenuDiv = document.getElementById('days-menu');
+        const daysMenuDiv = document.getElementById("days-menu");
         menu.days.forEach((day) => {
           const tr = document.createElement("tr");
           menuDateId += 1;
@@ -128,10 +128,10 @@ const menuElement = async (restaurant, option, lang) => {
           dateTable.appendChild(tr);
           tr.addEventListener("click", (e) => {
             daysMenuDiv.innerHTML = "";
-            clearClasses("highlight-menu");
-            tr.classList.add("highlight-menu");
             const daysMenuHTML = restaurantModal(restaurant, day);
             daysMenuDiv.innerHTML = daysMenuHTML;
+            clearClasses("highlight-menu");
+            tr.classList.add("highlight-menu");
           });
         });
         restaurantMenuDialog.showModal();

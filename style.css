@@ -42,7 +42,7 @@ dialog::backdrop {
   align-items: stretch;
 }
 
-#profile-picture {
+.profile-picture {
   height: 75px;
   width: auto;
   border-radius: 50%;
@@ -112,12 +112,12 @@ td {
 }
 
 .highlight {
-  background-color: rgba(26, 115, 232, 0.15);
+  background-color: var(--color-secondary);
   font-weight: bolder;
 }
 
 .highlight-menu {
-  background-color: rgba(26, 115, 232, 0.15);
+  background-color: var(--color-secondary);
   font-weight: bolder;
 }
 
@@ -150,8 +150,11 @@ td {
 }
 
 @media (min-width: 1024px) {
-
   .nav-bar {
+    padding-left: 25%;
+  }
+
+  footer {
     padding-left: 25%;
   }
 
