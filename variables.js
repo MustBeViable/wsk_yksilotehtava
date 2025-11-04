@@ -1,4 +1,7 @@
+export const bodyElement = document.querySelector("body");
 export const body = document.querySelector("main");
+
+export const userProfileDialog = document.getElementById("user-profile-dialog");
 export const navBar = document.querySelector("nav");
 export const restaurantsTable = document.getElementById("restaurants-scroll");
 export const restaurantMenuDialog = document.getElementById("menu-dialog");

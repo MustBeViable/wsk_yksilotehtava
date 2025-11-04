@@ -2,6 +2,7 @@ import { getLoggedInUser, navBar } from "../variables.js";
 import { revealPasswordButton } from "../utils.js";
 import { signUpDialogBuilder } from "./signUp.js";
 import { logIn } from "./logIn.js";
+import { openUserSetting } from "./userInformationEdit.js";
 
 export const navBarBuilder = (elements) => {
   navBar.innerHTML = elements;
@@ -65,7 +66,13 @@ export const loggedInNavBar = () => {
   console.log(loggedInUser)
   const loggedInHTML = `
   <p>${loggedInUser.username}</p>
+  <button id="open-profile-edit">Edit profile</button>
   <img id="profile-picture" src"${loggedInUser.profileImg}/>
   `;
   navBarBuilder(loggedInHTML);
+  const editProfile = document.getElementById("open-profile-edit");
+  editProfile.addEventListener("click", (e) => {
+    e.preventDefault();
+    openUserSetting();
+  })
 };

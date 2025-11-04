@@ -1,8 +1,8 @@
-import { getLoggedInUser, body } from "../variables";
+import { getLoggedInUser, bodyElement, userProfileDialog } from "../variables.js";
+
 
 export function createUserDialog() {
   const userInfo = getLoggedInUser();
-  const userProfileDialog = document.createElement("dialog");
   const userDialogHTML = `
   <div id="user-profile">
     <button id="close-user-setting">X</button>
@@ -12,13 +12,13 @@ export function createUserDialog() {
     <button id="change-user-information"></button>
   </div>
   `;
-  userProfileDialog.textContent(userDialogHTML);
-  return userProfileDialog;
+  return userDialogHTML;
 }
 
 export function openUserSetting() {
-  const dialog = createUserDialog();
-  body.appendChild(dialog);
+  const dialog = userProfileDialog;
+  dialog.innerHTML = createUserDialog();
+  dialog.showModal();
   const changeUserInfo = document.getElementById("change-user-information");
   const closeDialog = document.getElementById("close-user-setting");
   closeDialog.addEventListener("click", (e) => {
@@ -68,8 +68,8 @@ export async function changeUserInfoDialog() {
   </div>
 </form>
     `;
-    const userSettingsDialog = document.createElement("dialog");
-    dialog.textContent = profileSettingsDialog;
-    body.appendChild(userSettingsDialog);
-    dialog.showModal();
+  const userSettingsDialog = document.createElement("dialog");
+  dialog.innerHTML = profileSettingsDialog;
+  bodyElement.appendChild(userSettingsDialog);
+  dialog.showModal();
 }
