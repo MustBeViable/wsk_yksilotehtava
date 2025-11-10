@@ -2,7 +2,7 @@ import { map, body, rowById, markerById, userIcon } from "../variables.js";
 
 import { userLocator, clearClasses } from "../utils.js";
 
-import { menuElement } from "./components.js";
+import { menuElement } from "./menuComponent.js";
 
 export function panMapTo(restaurant) {
   const offsetLong = Math.round(map.getSize().y * 0.2);

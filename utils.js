@@ -5,7 +5,7 @@ import {
   rowById,
   markerById,
 } from "./variables.js";
-import { restaurantRow } from "./components/components.js";
+import { restaurantRow } from "./components/menuComponent.js";
 import { failedToLoad } from "./components/error_component.js";
 import { buildMarkerPopUp, panMapTo } from "./components/mapControl.js";
 
