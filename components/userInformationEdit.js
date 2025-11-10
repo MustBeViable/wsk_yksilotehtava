@@ -85,6 +85,7 @@ export async function changeUserInfoDialog() {
 </form>
     `;
   const userSettingsDialog = document.getElementById("user-settings-dialog");
+  userSettingsDialog.innerHTML = "";
   const div = document.createElement("div");
   div.innerHTML = profileSettingsDialog;
   userSettingsDialog.appendChild(div);
