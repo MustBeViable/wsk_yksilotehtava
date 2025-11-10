@@ -9,6 +9,8 @@ export const signUpDialog = document.getElementById("sign-up-dialog");
 export const filterCompany = document.getElementById("filter-input");
 export const filterSubmitButton = document.getElementById("filter-button");
 export let map = L.map("map");
+export const jokeElement = document.getElementById("joke");
+export const jokeButton = document.getElementById("chuck-norris");
 
 export const restaurantListUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants";

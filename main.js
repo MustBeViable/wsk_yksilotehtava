@@ -3,17 +3,20 @@ import {
   filterCompany,
   restaurantListUrl,
   setRestaurantsCache,
+  jokeElement,
+  jokeButton,
 } from "./variables.js";
 import {
   debounce,
   filterRestaurants,
   fetchData,
   addElements,
-  sortList
+  sortList,
 } from "./utils.js";
 import { defaultNavBar } from "./components/navBar.js";
 import { failedToLoad } from "./components/error_component.js";
-import { setMarkers, getUserLocation,  } from "./components/mapControl.js";
+import { setMarkers, getUserLocation } from "./components/mapControl.js";
+import { ChuckNorris } from "./components/chuckNorris.js";
 
 const run = async () => {
   defaultNavBar();
@@ -40,6 +43,11 @@ const run = async () => {
       "refresh page"
     );
   }
+  ChuckNorris(jokeElement);
+  jokeButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    ChuckNorris(jokeElement);
+  });
 };
 
 run();
