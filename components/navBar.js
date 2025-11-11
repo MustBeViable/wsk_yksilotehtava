@@ -57,6 +57,8 @@ export const logInComponent = () => {
     const logInSuccess = await logIn(inputUserName.value.trim(), inputPassword.value.trim());
     if (logInSuccess) {
       loggedInNavBar();
+    } else {
+      window.alert("Wrong username or password")
     }
   })
 };
