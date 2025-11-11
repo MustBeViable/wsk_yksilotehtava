@@ -3,6 +3,7 @@ import { map, body, rowById, markerById, userIcon } from "../variables.js";
 import { userLocator, clearClasses } from "../utils.js";
 
 import { menuElement } from "./menuComponent.js";
+import { sendDataToApi } from "./userInformationEdit.js";
 
 export function panMapTo(restaurant) {
   const offsetLong = Math.round(map.getSize().y * 0.2);
@@ -13,12 +14,14 @@ export function panMapTo(restaurant) {
 export function buildMarkerPopUp(restaurant, marker, lat, long) {
   const buttonIdDaily = restaurant._id + "-daily";
   const buttonIdWeekly = restaurant._id + "-weekly";
+  const favourite = restaurant._id + "-favourite"
   const popUpHTML = `
     <div class="marker-poput">
       <h5>${restaurant.name}</h5>
       <p>${restaurant.address}</p>
       <button id="${buttonIdDaily}">todays menu</button>
       <button id="${buttonIdWeekly}">weeks menu</button>
+      <button id="${favourite}">favourite</button>
     </div>
     `;
   marker.bindPopup(popUpHTML, {
@@ -38,6 +41,13 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
       e.preventDefault();
       menuElement(restaurant, "weekly", "fi");
     });
+    document.getElementById(favourite).addEventListener("click", async (e) => {
+      e.preventDefault();
+      const isLoggedIn = await sendDataToApi(null, null, null, restaurant._id);
+      if (!isLoggedIn) {
+        window.alert("you need to be logged in")
+      }
+    })
   });
   marker.on("click", () => {
     map.setView([lat, long], 15);

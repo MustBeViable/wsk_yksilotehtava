@@ -1,28 +1,40 @@
-import { fetchData } from "../utils.js";
+import { fetchData, clearClasses } from "../utils.js";
 import {
   getLoggedInUser,
-  bodyElement,
+  getRestaurantsCache,
   userProfileDialog,
   userUrl,
+  markerById, 
+  rowById,
+  map
 } from "../variables.js";
 import { userInfoByToken } from "./logIn.js";
 import { loggedInNavBar } from "./navBar.js";
+import { panMapTo } from "./mapControl.js";
 
 export function createUserDialog() {
+  const restaurantList = getRestaurantsCache();
   const userInfo = getLoggedInUser();
+  console.log(userInfo);
+  console.log(restaurantList);
+  const favoriteRestaurantObject = restaurantList.find((restaurant) => {
+    return restaurant._id === userInfo.favouriteRestaurant;
+  });
+  console.log(favoriteRestaurantObject);
   const userDialogHTML = `
   <div id="user-profile">
     <button id="close-user-setting">X</button>
     <p>${userInfo.username}</p>
     <img class="profile-picture" src="${userInfo.avatar}" alt="profile picture" />
-    <p id="favourite-restaurant"></p>
+    <p id="favourite-restaurant">${favoriteRestaurantObject?.name}</p>
     <button id="change-user-information">Change profile</button>
   </div>
   `;
   return userDialogHTML;
 }
 
-export function openUserSetting() {
+export async function openUserSetting() {
+  await userInfoByToken(getLoggedInUser().token);
   const dialog = userProfileDialog;
   dialog.innerHTML = createUserDialog();
   const changeUserInfo = document.getElementById("change-user-information");
@@ -36,6 +48,28 @@ export function openUserSetting() {
     changeUserInfoDialog();
     dialog.close();
   });
+  document
+    .getElementById("favourite-restaurant")
+    .addEventListener("click", () => {
+      const { favouriteRestaurant } = getLoggedInUser();
+      if (!favouriteRestaurant) return;
+
+      const markerObj = markerById.get(favouriteRestaurant);
+      if (!markerObj) return;
+
+      const { restaurantInfo, mapMarker, restaurantLat, restaurantLong } =
+        markerObj;
+
+      map.setView([restaurantLat, restaurantLong], 15);
+      panMapTo(restaurantInfo);
+      mapMarker.openPopup();
+
+      clearClasses("highlight");
+      const tr = rowById.get(favouriteRestaurant);
+      tr?.classList.add("highlight");
+      tr?.scrollIntoView({ behavior: "smooth", block: "center" });
+      dialog.close();
+    });
   dialog.showModal();
 }
 
@@ -103,22 +137,27 @@ export async function changeUserInfoDialog() {
     const file = avatarInput.files?.[0];
     if (file) {
       const res = await uploadAvatar(file);
-      await userInfoByToken(getLoggedInUser().token)
+      await userInfoByToken(getLoggedInUser().token);
     }
-    if (newUserNameInput.value || newPasswordInput.value || newEmailInput.value){
-    const responseData = await sendDataToApi(
-      newUserNameInput.value.trim(),
-      newPasswordInput.value.trim(),
-      newEmailInput.value.trim()
-    );
-    if (responseData.data) {
-      responseMessage.textContent = "";
-      responseMessage.textContent = "Saved successfully";
-    } else {
-      responseMessage.textContent = "";
-      responseMessage.textContent =
-        "Something went wrong, check your connections";
-    }}
+    if (
+      newUserNameInput.value ||
+      newPasswordInput.value ||
+      newEmailInput.value
+    ) {
+      const responseData = await sendDataToApi(
+        newUserNameInput.value.trim(),
+        newPasswordInput.value.trim(),
+        newEmailInput.value.trim()
+      );
+      if (responseData.data) {
+        responseMessage.textContent = "";
+        responseMessage.textContent = "Saved successfully";
+      } else {
+        responseMessage.textContent = "";
+        responseMessage.textContent =
+          "Something went wrong, check your connections";
+      }
+    }
   });
   cancelNewInfo.addEventListener("click", (e) => {
     e.preventDefault();
@@ -129,8 +168,16 @@ export async function changeUserInfoDialog() {
   userSettingsDialog.showModal();
 }
 
-export async function sendDataToApi(newUsername, newPassword, newEmail) {
+export async function sendDataToApi(
+  newUsername,
+  newPassword,
+  newEmail,
+  favouriteRestaurant
+) {
   const loggedInUser = getLoggedInUser();
+  if (!loggedInUser.token) {
+    return;
+  }
   let optionsJson = {};
   if (newPassword) {
     optionsJson = {
@@ -143,22 +190,29 @@ export async function sendDataToApi(newUsername, newPassword, newEmail) {
         username: newUsername ? newUsername : loggedInUser.username,
         password: newPassword,
         email: newEmail ? newEmail : loggedInUser.email,
+        favouriteRestaurant: favouriteRestaurant
+          ? favouriteRestaurant
+          : loggedInUser.favouriteRestaurant,
       }),
     };
   } else {
     optionsJson = {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${loggedInUser.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: newUsername ? newUsername : loggedInUser.username,
         email: newEmail ? newEmail : loggedInUser.email,
+        favouriteRestaurant: favouriteRestaurant
+          ? favouriteRestaurant
+          : loggedInUser.favouriteRestaurant,
       }),
     };
   }
   const data = await fetchData(userUrl, optionsJson);
+  userInfoByToken(loggedInUser.token);
   return data;
 }
 
