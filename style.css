@@ -1,8 +1,8 @@
 :root {
-  --color-primary: #CCD5AE;
-  --color-secondary: #E9EDC9;
-  --color-highlight: #D4A373;
-  --color-bg: #FEFAE0;
+  --color-primary: #ccd5ae;
+  --color-secondary: #e9edc9;
+  --color-highlight: #d4a373;
+  --color-bg: #fefae0;
   --color-text: #1a1a1a;
   --main-component-height: 350px;
 }
@@ -152,12 +152,18 @@ td {
   font-weight: bolder;
 }
 
+#favourite-restaurant:hover {
+  background-color: var(--color-secondary);
+  font-weight: bolder;
+}
+
 .highlight-menu {
   background-color: var(--color-secondary);
   font-weight: bolder;
 }
 
 .pane-left {
+  text-align: center;
   border: 2px solid #000000;
   border-radius: 15px;
   background-color: var(--color-primary);
@@ -168,6 +174,7 @@ td {
 }
 
 .pane-right {
+  text-align: center;
   border: 2px solid #000000;
   border-radius: 15px;
   background-color: var(--color-primary);

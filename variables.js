@@ -11,6 +11,7 @@ export const filterSubmitButton = document.getElementById("filter-button");
 export let map = L.map("map");
 export const jokeElement = document.getElementById("joke");
 export const jokeButton = document.getElementById("chuck-norris");
+export const addElement = document.getElementById("right");
 
 export const restaurantListUrl =
   "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants";
@@ -51,6 +52,16 @@ export function getLoggedInUser() {
 
 export function setLoggedInUser(newLoggedInUser) {
   loggedInUser = newLoggedInUser;
+}
+
+let addShowElement = {};
+
+export function getAddShowElement() {
+  return addShowElement;
+}
+
+export function setAddShowElement(newShow) {
+  addShowElement = newShow;
 }
 
 export const userIcon = L.icon({

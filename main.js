@@ -5,6 +5,8 @@ import {
   setRestaurantsCache,
   jokeElement,
   jokeButton,
+  addElement,
+  getAddShowElement
 } from "./variables.js";
 import {
   debounce,
@@ -17,6 +19,7 @@ import { defaultNavBar } from "./components/navBar.js";
 import { failedToLoad } from "./components/error_component.js";
 import { setMarkers, getUserLocation } from "./components/mapControl.js";
 import { ChuckNorris } from "./components/chuckNorris.js";
+import { randomTvShowAd } from "./components/tvShowAd.js";
 
 const run = async () => {
   defaultNavBar();
@@ -48,6 +51,10 @@ const run = async () => {
     e.preventDefault();
     ChuckNorris(jokeElement);
   });
+  addElement.innerHTML = await randomTvShowAd();
+  document.getElementById("add-container").addEventListener("click", (e) => {
+    window.open(getAddShowElement().url || "", "_blank", "noopener");
+  })
 };
 
 run();
