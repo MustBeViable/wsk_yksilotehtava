@@ -66,7 +66,6 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
 export async function setMarkers(list, userCoordinates) {
   const div = document.createElement("div");
   body.appendChild(div);
-  console.log(userCoordinates);
   const markerObject = {};
   L.marker(userCoordinates, { icon: userIcon }).addTo(map);
   for (let i = 0; i < list.length; i++) {

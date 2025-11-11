@@ -5,6 +5,7 @@
   --color-bg: #fefae0;
   --color-text: #1a1a1a;
   --main-component-height: 350px;
+  --rail: 30%;
 }
 
 body {
@@ -236,7 +237,18 @@ td {
 
 @media (min-width: 1024px) {
   .nav-bar {
-    padding-left: 32%;
+    display: flex;
+    justify-content: center;
+  }
+  .nav-bar::before {
+    content: "";
+    flex: 0 0 var(--rail);
+    visibility: hidden;
+  }
+  .nav-bar::after {
+    content: "";
+    flex: 0 0 var(--rail);
+    visibility: hidden;
   }
 
   footer {
