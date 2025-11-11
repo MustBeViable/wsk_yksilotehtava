@@ -1,11 +1,9 @@
 :root {
-  --color-primary: #3887ef;
-  --color-secondary: #00c853;
-  --color-highlight: #ff6d00;
-  --color-bg: #8fa547;
+  --color-primary: #CCD5AE;
+  --color-secondary: #E9EDC9;
+  --color-highlight: #D4A373;
+  --color-bg: #FEFAE0;
   --color-text: #1a1a1a;
-  --color-card: #ffffff;
-  --color-border: #d1d5db;
   --main-component-height: 350px;
 }
 
