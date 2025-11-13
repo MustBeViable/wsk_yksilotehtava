@@ -22,7 +22,7 @@ export const signUpDialogBuilder = () => {
 
     <div>
     <label for="">Enter email: </label>
-    <input type="email" placeholder="email" id="email-input-signup"/>
+    <input type="email" placeholder="email" id="email-input-signup" required />
     <button id="submit-sign-up">Sign up</button>
     </div>
   </form>
@@ -40,8 +40,20 @@ export const signUpDialogBuilder = () => {
     .getElementById("submit-sign-up")
     .addEventListener("click", async (e) => {
       e.preventDefault();
+      const emailRegex = /^[^@\s]+@[^@\s]+\.fi$/i;
+
+      if (!emailRegex.test(inputEmail.value.trim())) {
+        window.alert("Check your email");
+        return;
+      }
+
       const isAvailable = await checkUsername(inputUserName.value);
-      if (isAvailable.available) {
+      if (
+        isAvailable.available &&
+        inputPassword.value &&
+        inputEmail.value &&
+        inputUserName.value
+      ) {
         const userObject = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -51,7 +63,11 @@ export const signUpDialogBuilder = () => {
             email: inputEmail.value,
           }),
         };
-        await fetchData(userUrl, userObject);
+        const signUp = await fetchData(userUrl, userObject);
+        if (signUp.status === 400) {
+          window.alert("Please check your input, email might be putted wrong");
+          return;
+        }
         await logIn(inputUserName.value.trim(), inputPassword.value.trim());
         loggedInNavBar();
         signUpDialog.close();
@@ -64,6 +80,12 @@ export const signUpDialogBuilder = () => {
         p.innerText = "";
         p.innerText = `Username ${inputUserName.value} exists already. Use something else.`;
         signUpDialog.appendChild(p);
+      } else if (
+        !inputPassword.value ||
+        !inputEmail.value ||
+        !inputUserName.value
+      ) {
+        window.alert("please enter all required fields");
       }
     });
   document.getElementById("close-sign-up").addEventListener("click", (e) => {

@@ -43,6 +43,7 @@ export const fetchData = async (url, options) => {
       } else {
         const message = `HTTP: ${response.status}, ${response.statusText}`;
         failedToLoad("div", message, "refresh page");
+        return await response.json();
       }
     } catch (e) {
       console.log(e);

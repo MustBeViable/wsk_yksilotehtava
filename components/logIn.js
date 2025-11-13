@@ -19,6 +19,8 @@ export const logIn = async (userName, password) => {
     ) {
       await userInfoByToken(response.token);
       return true;
+    } if (response.status===404) {
+      return false;
     }
   } catch (e) {
     console.log(e);
