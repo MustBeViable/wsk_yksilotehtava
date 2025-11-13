@@ -69,7 +69,7 @@ export const loggedInNavBar = () => {
   const loggedInHTML = `
   <p>${loggedInUser.username}</p>
   <button id="open-profile-edit">Edit profile</button>
-  <img class="profile-picture" src="${loggedInUser.avatar}"/>
+  <img class="profile-picture" src="${loggedInUser.avatar ?? "../resources/images/def_profile_pic.jpg"}"/>
   `;
   navBarBuilder(loggedInHTML);
   const editProfile = document.getElementById("open-profile-edit");

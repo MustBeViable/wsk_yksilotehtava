@@ -44,7 +44,7 @@ export async function userInfoByToken(token) {
       username: data.username,
       email: data.email,
       favouriteRestaurant: data.favouriteRestaurant ?? "",
-      avatar: userAvatarUrl ?? ""
+      avatar: userAvatarUrl ?? "../resources/images/def_profile_pic.jpg"
     });
   } catch (error) {}
 }

@@ -25,9 +25,9 @@ export function createUserDialog() {
   <div id="user-profile">
     <button id="close-user-setting">X</button>
     <p>${userInfo.username}</p>
-    <img class="profile-picture" src="${userInfo.avatar}" alt="profile picture" />
+    <img class="profile-picture" src="${userInfo.avatar ?? "../resources/images/def_profile_pic.jpg"}" alt="profile picture" />
     <p>Your currently favourite restaurant: </p>
-    <p id="favourite-restaurant">${favoriteRestaurantObject?.name}</p>
+    <p id="favourite-restaurant">${favoriteRestaurantObject?.name ?? "No favourite restaurants yet"}</p>
     <button id="change-user-information">Change profile</button>
   </div>
   `;

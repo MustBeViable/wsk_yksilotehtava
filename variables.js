@@ -43,7 +43,7 @@ let loggedInUser = {
   username: "",
   email: "",
   favouriteRestaurant: "",
-  avatar: "",
+  avatar: null,
 };
 
 export function getLoggedInUser() {
