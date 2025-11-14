@@ -76,7 +76,6 @@ export const signUpDialogBuilder = () => {
         p.innerText = `Username ${inputUserName.value} is not valid. Use something else.`;
         signUpDialog.appendChild(p);
       } else if (!isAvailable.available) {
-        console.log(isAvailable.available);
         p.innerText = "";
         p.innerText = `Username ${inputUserName.value} exists already. Use something else.`;
         signUpDialog.appendChild(p);
@@ -108,7 +107,6 @@ async function checkUsername(userName) {
       cache: "no-store",
       headers: { "Cache-Control": "no-cache" },
     });
-    console.log(response);
     return { available: response.available, HTTPcode: response.status };
   } catch (e) {
     console.log(e);

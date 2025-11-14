@@ -31,7 +31,6 @@ async function randomTvShowAd() {
   } catch (error) {
     console.log(error);
   }
-  console.log(showObject);
 }
 
 export { randomTvShowAd };

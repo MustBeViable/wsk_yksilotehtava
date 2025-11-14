@@ -65,7 +65,6 @@ export const logInComponent = () => {
 
 export const loggedInNavBar = () => {
   const loggedInUser = getLoggedInUser();
-  console.log(loggedInUser)
   const loggedInHTML = `
   <p>${loggedInUser.username}</p>
   <button id="open-profile-edit">Edit profile</button>

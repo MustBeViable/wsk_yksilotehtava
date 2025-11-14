@@ -15,12 +15,9 @@ import { panMapTo } from "./mapControl.js";
 export function createUserDialog() {
   const restaurantList = getRestaurantsCache();
   const userInfo = getLoggedInUser();
-  console.log(userInfo);
-  console.log(restaurantList);
   const favoriteRestaurantObject = restaurantList.find((restaurant) => {
     return restaurant._id === userInfo.favouriteRestaurant;
   });
-  console.log(favoriteRestaurantObject);
   const userDialogHTML = `
   <div id="user-profile">
     <button id="close-user-setting">X</button>

@@ -46,7 +46,6 @@ export const fetchData = async (url, options) => {
         return await response.json();
       }
     } catch (e) {
-      console.log(e);
       failedToLoad(
         "div",
         "No connection. Check your connection and try again.",
@@ -63,7 +62,6 @@ export const fetchData = async (url, options) => {
         failedToLoad("div", message, "refresh page");
       }
     } catch (e) {
-      console.log(e);
       failedToLoad(
         "div",
         "No connection. Check your connection and try again.",
