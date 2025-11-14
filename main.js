@@ -57,10 +57,10 @@ const run = async () => {
   document.getElementById("add-container").addEventListener("click", (e) => {
     window.open(getAddShowElement().url || "", "_blank", "noopener");
   });
-  const importantDialog = createMostImportantComponent();
-  bodyElement.appendChild(importantDialog);
   document.getElementById("tarkee").addEventListener("click", (e) => {
     e.preventDefault();
+    const importantDialog = createMostImportantComponent();
+    bodyElement.appendChild(importantDialog);
     importantDialog.showModal();
     const closeButton = document.getElementById("not-to-close");
     closeButton.addEventListener("click", (e) => {
