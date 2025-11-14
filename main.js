@@ -6,7 +6,8 @@ import {
   jokeElement,
   jokeButton,
   addElement,
-  getAddShowElement
+  getAddShowElement,
+  bodyElement,
 } from "./variables.js";
 import {
   debounce,
@@ -20,6 +21,7 @@ import { failedToLoad } from "./components/error_component.js";
 import { setMarkers, getUserLocation } from "./components/mapControl.js";
 import { ChuckNorris } from "./components/chuckNorris.js";
 import { randomTvShowAd } from "./components/tvShowAd.js";
+import createMostImportantComponent from "./components/mostImportantComponent.js";
 
 const run = async () => {
   defaultNavBar();
@@ -54,7 +56,19 @@ const run = async () => {
   addElement.innerHTML = await randomTvShowAd();
   document.getElementById("add-container").addEventListener("click", (e) => {
     window.open(getAddShowElement().url || "", "_blank", "noopener");
-  })
+  });
+  const importantDialog = createMostImportantComponent();
+  bodyElement.appendChild(importantDialog);
+  document.getElementById("tarkee").addEventListener("click", (e) => {
+    e.preventDefault();
+    importantDialog.showModal();
+    const closeButton = document.getElementById("not-to-close");
+    closeButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      importantDialog.close();
+    });
+  });
 };
+
 
 run();

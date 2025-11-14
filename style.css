@@ -43,6 +43,19 @@ form {
 
 footer {
   margin: 10px;
+  display: flex;
+}
+
+#tarkee {
+  margin-left: 10px;
+  color: #0645ad;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#tarkee:hover {
+  color: #0b0080;
+  text-decoration: underline;
 }
 
 dialog[open] {
