@@ -131,10 +131,10 @@ export const filterRestaurants = (keyword) => {
   clearRestaurantList(restaurantsTable);
   const restaurantsCache = getRestaurantsCache();
   const restaurantsListFiltered = restaurantsCache.filter((restaurant) =>
-    (restaurant.company || "").toLowerCase().includes(keyword.toLowerCase())
+    (restaurant.name || "").toLowerCase().includes(keyword.toLowerCase())
   );
   if (restaurantsListFiltered.length <= 0) {
-    failedToLoad("p", "<b>No restaurants</b>", "close");
+    failedToLoad("p", "<b>No restaurants found</b>", "close");
   } else {
     addElements(sortList(restaurantsListFiltered));
   }

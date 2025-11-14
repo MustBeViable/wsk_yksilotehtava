@@ -1,6 +1,6 @@
 import {
   filterSubmitButton,
-  filterCompany,
+  filterByName,
   restaurantListUrl,
   setRestaurantsCache,
   jokeElement,
@@ -25,11 +25,11 @@ const run = async () => {
   defaultNavBar();
   filterSubmitButton.addEventListener("click", (evt) => {
     evt.preventDefault();
-    filterRestaurants(filterCompany.value);
+    filterRestaurants(filterByName.value);
   });
-  filterCompany.addEventListener(
+  filterByName.addEventListener(
     "input",
-    debounce((e) => filterRestaurants(filterCompany.value), 300)
+    debounce((e) => filterRestaurants(filterByName.value), 300)
   );
   try {
     const data = await fetchData(restaurantListUrl);
