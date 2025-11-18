@@ -14,7 +14,8 @@ export function panMapTo(restaurant) {
 export function buildMarkerPopUp(restaurant, marker, lat, long) {
   const buttonIdDaily = restaurant._id + "-daily";
   const buttonIdWeekly = restaurant._id + "-weekly";
-  const favourite = restaurant._id + "-favourite"
+  const favourite = restaurant._id + "-favourite";
+
   const popUpHTML = `
     <div class="marker-poput">
       <h5>${restaurant.name}</h5>
@@ -24,30 +25,40 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
       <button id="${favourite}">favourite</button>
     </div>
     `;
+
   marker.bindPopup(popUpHTML, {
     autoPan: false,
     keepInView: false,
     animate: false,
   });
+
   marker.on("popupopen", (e) => {
-    while (document.getElementById(buttonIdDaily) == null) {
-      //this forces to wait until button element have been created
+    const popupEl = e.popup.getElement();
+    if (!popupEl) return;
+
+    const dailyBtn = document.getElementById(buttonIdDaily);
+    const weeklyBtn = document.getElementById(buttonIdWeekly);
+    const favouriteBtn = document.getElementById(favourite);
+
+    if (!dailyBtn || !weeklyBtn || !favouriteBtn) {
+      return;
     }
-    document.getElementById(buttonIdDaily).addEventListener("click", (e) => {
+
+    dailyBtn.onclick = (e) => {
       e.preventDefault();
       menuElement(restaurant, "daily", "fi");
-    });
-    document.getElementById(buttonIdWeekly).addEventListener("click", (e) => {
+    };
+
+    weeklyBtn.onclick = (e) => {
       e.preventDefault();
       menuElement(restaurant, "weekly", "fi");
-    });
-    document.getElementById(favourite).addEventListener("click", async (e) => {
+    };
+
+    favouriteBtn.onclick = async (e) => {
       e.preventDefault();
-      const isLoggedIn = await sendDataToApi(null, null, null, restaurant._id);
-      if (!isLoggedIn) {
-        window.alert("you need to be logged in")
-      }
-    })
+      const logged = await sendDataToApi(null, null, null, restaurant._id);
+      if (!logged) alert("you need to be logged in");
+    };
   });
   marker.on("click", () => {
     map.setView([lat, long], 15);
