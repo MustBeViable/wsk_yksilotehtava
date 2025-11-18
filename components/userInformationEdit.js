@@ -4,9 +4,9 @@ import {
   getRestaurantsCache,
   userProfileDialog,
   userUrl,
-  markerById, 
+  markerById,
   rowById,
-  map
+  map,
 } from "../variables.js";
 import { userInfoByToken } from "./logIn.js";
 import { loggedInNavBar } from "./navBar.js";
@@ -22,9 +22,13 @@ export function createUserDialog() {
   <div id="user-profile">
     <button id="close-user-setting">X</button>
     <p>${userInfo.username}</p>
-    <img class="profile-picture" src="${userInfo.avatar ?? "../resources/images/def_profile_pic.jpg"}" alt="profile picture" />
+    <img class="profile-picture" src="${
+      userInfo.avatar ?? "../resources/images/def_profile_pic.jpg"
+    }" alt="profile picture" />
     <p>Your currently favourite restaurant: </p>
-    <p id="favourite-restaurant">${favoriteRestaurantObject?.name ?? "No favourite restaurants yet"}</p>
+    <p id="favourite-restaurant">${
+      favoriteRestaurantObject?.name ?? "No favourite restaurants yet"
+    }</p>
     <button id="change-user-information">Change profile</button>
   </div>
   `;
@@ -136,6 +140,8 @@ export async function changeUserInfoDialog() {
     if (file) {
       const res = await uploadAvatar(file);
       await userInfoByToken(getLoggedInUser().token);
+      responseMessage.textContent = "";
+      responseMessage.textContent = "Saved successfully";
     }
     if (
       newUserNameInput.value ||
