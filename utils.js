@@ -106,12 +106,7 @@ export const addElements = (array) => {
       rowById.set(restaurant._id, tr);
       tr.addEventListener("click", async () => {
         const markerObject = await markerById.get(restaurant._id);
-        buildMarkerPopUp(
-          markerObject.restaurantInfo,
-          markerObject.mapMarker,
-          markerObject.restaurantLat,
-          markerObject.restaurantLong
-        );
+
         map.setView([
           restaurant.location.coordinates[1],
           restaurant.location.coordinates[0],
