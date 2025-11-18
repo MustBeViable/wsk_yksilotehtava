@@ -10,7 +10,6 @@ import {
   bodyElement,
 } from "./variables.js";
 import {
-  debounce,
   filterRestaurants,
   fetchData,
   addElements,
@@ -29,10 +28,9 @@ const run = async () => {
     evt.preventDefault();
     filterRestaurants(filterByName.value);
   });
-  filterByName.addEventListener(
-    "input",
-    debounce((e) => filterRestaurants(filterByName.value), 300)
-  );
+  filterByName.addEventListener("input", () => {
+    filterRestaurants(filterByName.value);
+  });
   try {
     const data = await fetchData(restaurantListUrl);
     const list = Array.isArray(data) ? data : [];
@@ -69,6 +67,5 @@ const run = async () => {
     });
   });
 };
-
 
 run();

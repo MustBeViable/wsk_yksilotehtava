@@ -7,7 +7,7 @@ import {
 } from "./variables.js";
 import { restaurantRow } from "./components/menuComponent.js";
 import { failedToLoad } from "./components/error_component.js";
-import { buildMarkerPopUp, panMapTo } from "./components/mapControl.js";
+import { panMapTo } from "./components/mapControl.js";
 
 export function userLocator() {
   return new Promise((resolve, reject) => {
@@ -88,14 +88,6 @@ export function clearClasses(className) {
 export const clearRestaurantList = (element) => {
   element.innerHTML = "";
 };
-
-export function debounce(fn, delay = 300) {
-  let t;
-  return (...args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...args), delay);
-  };
-}
 
 export const addElements = (array) => {
   rowById.clear();
