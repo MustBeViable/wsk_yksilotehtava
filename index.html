@@ -27,17 +27,6 @@
     <div class="main-content">
       <main>
         <div class="pane-middle">
-          <div id="restaurants" class="scroll-y">
-            <table>
-              <thead class="restaurant-list">
-                <tr>
-                  <th>Name</th>
-                  <th>Company name</th>
-                </tr>
-              </thead>
-              <tbody class="restaurant-list" id="restaurants-scroll"></tbody>
-            </table>
-          </div>
           <div class="search-bar">
             <form action="">
               <label for="filter-input">Search for restaurant by name</label>
@@ -48,6 +37,17 @@
               />
               <button id="filter-button">search</button>
             </form>
+          </div>
+          <div id="restaurants" class="scroll-y">
+            <table>
+              <thead class="restaurant-list">
+                <tr>
+                  <th>Name</th>
+                  <th>Company name</th>
+                </tr>
+              </thead>
+              <tbody class="restaurant-list" id="restaurants-scroll"></tbody>
+            </table>
           </div>
         </div>
         <dialog id="menu-dialog"></dialog>
@@ -75,7 +75,7 @@
   <footer>
     <p>
       This site requires Metropolia's vpn or direct connection to Metropolias
-      network  
+      network
     </p>
     <p id="tarkee">about me</p>
   </footer>
