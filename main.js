@@ -1,5 +1,4 @@
 import {
-  filterSubmitButton,
   filterByName,
   restaurantListUrl,
   setRestaurantsCache,
@@ -24,10 +23,6 @@ import createMostImportantComponent from "./components/mostImportantComponent.js
 
 const run = async () => {
   defaultNavBar();
-  filterSubmitButton.addEventListener("click", (evt) => {
-    evt.preventDefault();
-    filterRestaurants(filterByName.value);
-  });
   filterByName.addEventListener("input", () => {
     filterRestaurants(filterByName.value);
   });
@@ -41,7 +36,7 @@ const run = async () => {
   } catch (err) {
     console.error(err);
     failedToLoad(
-      "div",
+      "dialog",
       "No connection. Check your connection and try again.",
       "refresh page"
     );

@@ -47,7 +47,7 @@ export const fetchData = async (url, options) => {
       }
     } catch (e) {
       failedToLoad(
-        "div",
+        "dialog",
         "No connection. Check your connection and try again.",
         "refresh page"
       );
@@ -63,7 +63,7 @@ export const fetchData = async (url, options) => {
       }
     } catch (e) {
       failedToLoad(
-        "div",
+        "dialog",
         "No connection. Check your connection and try again.",
         "refresh page"
       );
@@ -119,7 +119,7 @@ export const filterRestaurants = (keyword) => {
     (restaurant.name || "").toLowerCase().includes(keyword.toLowerCase())
   );
   if (restaurantsListFiltered.length <= 0) {
-    failedToLoad("p", "<b>No restaurants found</b>", "close");
+    return;
   } else {
     addElements(sortList(restaurantsListFiltered));
   }

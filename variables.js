@@ -7,7 +7,6 @@ export const restaurantsTable = document.getElementById("restaurants-scroll");
 export const restaurantMenuDialog = document.getElementById("menu-dialog");
 export const signUpDialog = document.getElementById("sign-up-dialog");
 export const filterByName = document.getElementById("filter-input");
-export const filterSubmitButton = document.getElementById("filter-button");
 export let map = L.map("map");
 export const jokeElement = document.getElementById("joke");
 export const jokeButton = document.getElementById("chuck-norris");
