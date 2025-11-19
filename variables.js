@@ -1,3 +1,4 @@
+//Element variables
 export const bodyElement = document.querySelector("body");
 export const body = document.querySelector("main");
 
@@ -33,7 +34,7 @@ export function getRestaurantsCache() {
 export function setRestaurantsCache(restauranlist) {
   restaurantsCache = restauranlist;
 }
-
+//Maps movement on map and table at the same time and keeps it at sync
 export const rowById = new Map();
 export const markerById = new Map();
 
@@ -53,14 +54,15 @@ export function setLoggedInUser(newLoggedInUser) {
   loggedInUser = newLoggedInUser;
 }
 
-let addShowElement = {};
+//ad 
+let adShowElement = {};
 
-export function getAddShowElement() {
-  return addShowElement;
+export function getAdShowElement() {
+  return adShowElement;
 }
 
-export function setAddShowElement(newShow) {
-  addShowElement = newShow;
+export function setAdShowElement(newShow) {
+  adShowElement = newShow;
 }
 
 export const userIcon = L.icon({

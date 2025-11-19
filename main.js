@@ -5,7 +5,7 @@ import {
   jokeElement,
   jokeButton,
   addElement,
-  getAddShowElement,
+  getAdShowElement,
   bodyElement,
 } from "./variables.js";
 import {
@@ -21,6 +21,7 @@ import { ChuckNorris } from "./components/chuckNorris.js";
 import { randomTvShowAd } from "./components/tvShowAd.js";
 import createMostImportantComponent from "./components/mostImportantComponent.js";
 
+//main function to load all content when user enters the page
 const run = async () => {
   defaultNavBar();
   filterByName.addEventListener("input", () => {
@@ -48,7 +49,7 @@ const run = async () => {
   });
   addElement.innerHTML = await randomTvShowAd();
   document.getElementById("add-container").addEventListener("click", (e) => {
-    window.open(getAddShowElement().url || "", "_blank", "noopener");
+    window.open(getAdShowElement().url || "", "_blank", "noopener");
   });
   document.getElementById("tarkee").addEventListener("click", (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { setAddShowElement } from "../variables.js";
+import { setAdShowElement } from "../variables.js";
 
 async function randomTvShowAd() {
   const tvApiUrl = "https://api.tvmaze.com/shows/";
@@ -10,7 +10,7 @@ async function randomTvShowAd() {
       if (response.ok) {
         showFound = true;
         const showObject = await response.json();
-        setAddShowElement(showObject);
+        setAdShowElement(showObject);
         const addHTML = `
         <div id="add-container">
         <h2>ADVERTISEMENT!</h2>
