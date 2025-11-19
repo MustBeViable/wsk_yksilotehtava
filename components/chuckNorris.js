@@ -5,7 +5,7 @@ const ChuckNorris = async (textElement) => {
     textElement.textContent = JokeJSON.value;
   }
   catch (error) {
-    console.log(error.message)
+    textElement.textContent = "Failed to load joke, you can try refreshing or generating a new joke."
   }
 }
 

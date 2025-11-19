@@ -42,14 +42,14 @@ export const fetchData = async (url, options) => {
         return await response.json();
       } else {
         const message = `HTTP: ${response.status}, ${response.statusText}`;
-        failedToLoad("div", message, "refresh page");
+        failedToLoad("dialog", message, "Close");
         return await response.json();
       }
     } catch (e) {
       failedToLoad(
         "dialog",
         "No connection. Check your connection and try again.",
-        "refresh page"
+        "Close"
       );
     }
   } else {
@@ -59,13 +59,13 @@ export const fetchData = async (url, options) => {
         return response.json();
       } else {
         const message = `HTTP: ${response.status}, ${response.statusText}`;
-        failedToLoad("div", message, "refresh page");
+        failedToLoad("dialog", message, "close");
       }
     } catch (e) {
       failedToLoad(
         "dialog",
         "No connection. Check your connection and try again.",
-        "refresh page"
+        "Close"
       );
     }
   }

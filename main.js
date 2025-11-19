@@ -38,7 +38,7 @@ const run = async () => {
     failedToLoad(
       "dialog",
       "No connection. Check your connection and try again.",
-      "refresh page"
+      "Close"
     );
   }
   ChuckNorris(jokeElement);
