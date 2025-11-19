@@ -6,7 +6,6 @@ import {
   jokeButton,
   addElement,
   getAdShowElement,
-  bodyElement,
 } from "./variables.js";
 import {
   filterRestaurants,
@@ -19,7 +18,6 @@ import { failedToLoad } from "./components/error_component.js";
 import { setMarkers, getUserLocation } from "./components/mapControl.js";
 import { ChuckNorris } from "./components/chuckNorris.js";
 import { randomTvShowAd } from "./components/tvShowAd.js";
-import createMostImportantComponent from "./components/mostImportantComponent.js";
 
 //main function to load all content when user enters the page
 const run = async () => {
@@ -50,17 +48,6 @@ const run = async () => {
   addElement.innerHTML = await randomTvShowAd();
   document.getElementById("add-container").addEventListener("click", (e) => {
     window.open(getAdShowElement().url || "", "_blank", "noopener");
-  });
-  document.getElementById("tarkee").addEventListener("click", (e) => {
-    e.preventDefault();
-    const importantDialog = createMostImportantComponent();
-    bodyElement.appendChild(importantDialog);
-    importantDialog.showModal();
-    const closeButton = document.getElementById("not-to-close");
-    closeButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      importantDialog.close();
-    });
   });
 };
 
