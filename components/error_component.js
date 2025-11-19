@@ -1,10 +1,10 @@
-export const failedToLoad = (element, message, buttonText ) => {
+const failedToLoad = (element, message, buttonText) => {
   const errorElement = document.createElement(element);
-  const div = document.getElementById('error');
+  const div = document.getElementById("error");
   document.querySelector("body").appendChild(div);
   div.innerHTML = "";
   div.setAttribute("role", "alert");
-  div.setAttribute("aria-live", "polite")
+  div.setAttribute("aria-live", "polite");
   div.appendChild(errorElement);
   switch (element) {
     case "dialog": {
@@ -28,7 +28,9 @@ export const failedToLoad = (element, message, buttonText ) => {
     case "p": {
       errorElement.innerHTML = `
       <p><b>${message}</p></b>
-      `
+      `;
     }
   }
 };
+
+export { failedToLoad };

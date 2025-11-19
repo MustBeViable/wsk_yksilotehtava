@@ -12,7 +12,7 @@ import { userInfoByToken } from "./logIn.js";
 import { loggedInNavBar } from "./navBar.js";
 import { panMapTo } from "./mapControl.js";
 
-export function createUserDialog() {
+function createUserDialog() {
   const restaurantList = getRestaurantsCache();
   const userInfo = getLoggedInUser();
   const favoriteRestaurantObject = restaurantList.find((restaurant) => {
@@ -35,7 +35,7 @@ export function createUserDialog() {
   return userDialogHTML;
 }
 
-export async function openUserSetting() {
+async function openUserSetting() {
   await userInfoByToken(getLoggedInUser().token);
   const dialog = userProfileDialog;
   dialog.innerHTML = createUserDialog();
@@ -75,7 +75,7 @@ export async function openUserSetting() {
   dialog.showModal();
 }
 
-export async function changeUserInfoDialog() {
+async function changeUserInfoDialog() {
   const profileSettingsDialog = `
 <form novalidate>
   <h3>Change your information</h3>
@@ -172,7 +172,7 @@ export async function changeUserInfoDialog() {
   userSettingsDialog.showModal();
 }
 
-export async function sendDataToApi(
+async function sendDataToApi(
   newUsername,
   newPassword,
   newEmail,
@@ -220,7 +220,7 @@ export async function sendDataToApi(
   return data;
 }
 
-export async function uploadAvatar(file) {
+async function uploadAvatar(file) {
   if (!file) return null;
 
   const { token } = getLoggedInUser();
@@ -237,3 +237,12 @@ export async function uploadAvatar(file) {
 
   return await fetchData(`${userUrl}/avatar`, options);
 }
+
+export {
+  createUserDialog,
+  openUserSetting,
+  changeUserInfoDialog,
+  changeUserInfoDialog,
+  sendDataToApi,
+  uploadAvatar,
+};

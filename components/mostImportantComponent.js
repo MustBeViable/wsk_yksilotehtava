@@ -10,5 +10,4 @@ const iFrameHTML = `
 <button id="not-to-close">close</button>
 `;
 
-
 export default createMostImportantComponent;

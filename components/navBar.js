@@ -4,11 +4,11 @@ import { signUpDialogBuilder } from "./signUp.js";
 import { logIn } from "./logIn.js";
 import { openUserSetting } from "./userInformationEdit.js";
 
-export const navBarBuilder = (elements) => {
+const navBarBuilder = (elements) => {
   navBar.innerHTML = elements;
 };
 
-export const defaultNavBar = () => {
+const defaultNavBar = () => {
   const defaultElements = `
     <button id="log-in-button">Log in</button>
     <button id="sign-up-button">Sign up</button>
@@ -26,7 +26,7 @@ export const defaultNavBar = () => {
   });
 };
 
-export const logInComponent = () => {
+const logInComponent = () => {
   const logInNavBar = `
     <form action="">
       <input id="username-input-login" type="text" minlength="3" maxlength="24" placeholder="username" required/>
@@ -54,26 +54,33 @@ export const logInComponent = () => {
   });
   logInButton.addEventListener("click", async (e) => {
     e.preventDefault();
-    const logInSuccess = await logIn(inputUserName.value.trim(), inputPassword.value.trim());
+    const logInSuccess = await logIn(
+      inputUserName.value.trim(),
+      inputPassword.value.trim()
+    );
     if (logInSuccess) {
       loggedInNavBar();
     } else {
-      window.alert("Wrong username or password")
+      window.alert("Wrong username or password");
     }
-  })
+  });
 };
 
-export const loggedInNavBar = () => {
+const loggedInNavBar = () => {
   const loggedInUser = getLoggedInUser();
   const loggedInHTML = `
   <p>${loggedInUser.username}</p>
   <button id="open-profile-edit">Edit profile</button>
-  <img class="profile-picture" src="${loggedInUser.avatar ?? "./resources/images/def_profile_pic.jpg"}"/>
+  <img class="profile-picture" src="${
+    loggedInUser.avatar ?? "./resources/images/def_profile_pic.jpg"
+  }"/>
   `;
   navBarBuilder(loggedInHTML);
   const editProfile = document.getElementById("open-profile-edit");
   editProfile.addEventListener("click", (e) => {
     e.preventDefault();
     openUserSetting();
-  })
+  });
 };
+
+export { navBarBuilder, defaultNavBar, logInComponent, loggedInNavBar };

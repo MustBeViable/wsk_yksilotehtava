@@ -9,7 +9,7 @@ import { restaurantRow } from "./components/menuComponent.js";
 import { failedToLoad } from "./components/error_component.js";
 import { panMapTo } from "./components/mapControl.js";
 
-export function userLocator() {
+function userLocator() {
   return new Promise((resolve, reject) => {
     if (!("geolocation" in navigator)) {
       reject(new Error("Geolocation ei tuettu"));
@@ -23,7 +23,7 @@ export function userLocator() {
         });
       },
       (err) => {
-        console.log("ei toimi tää", err.message);
+        console.log(err.message);
       },
       {
         enableHighAccuracy: true,
@@ -34,7 +34,7 @@ export function userLocator() {
   });
 }
 
-export const fetchData = async (url, options) => {
+const fetchData = async (url, options) => {
   if (options == null) {
     try {
       const response = await fetch(url);
@@ -71,13 +71,13 @@ export const fetchData = async (url, options) => {
   }
 };
 
-export const sortList = (array) => {
+const sortList = (array) => {
   return [...array].sort((a, b) =>
     a.name.localeCompare(b.name, "fi", { sensitivity: "base" })
   );
 };
 
-export function clearClasses(className) {
+function clearClasses(className) {
   try {
     document.querySelectorAll(`.${className}`).forEach((el) => {
       el.classList.remove(className);
@@ -85,11 +85,11 @@ export function clearClasses(className) {
   } catch (e) {}
 }
 
-export const clearRestaurantList = (element) => {
+const clearRestaurantList = (element) => {
   element.innerHTML = "";
 };
 
-export const addElements = (array) => {
+const addElements = (array) => {
   rowById.clear();
   if (array?.length >= 1) {
     array.forEach((restaurant) => {
@@ -112,7 +112,7 @@ export const addElements = (array) => {
   }
 };
 
-export const filterRestaurants = (keyword) => {
+const filterRestaurants = (keyword) => {
   clearRestaurantList(restaurantsTable);
   const restaurantsCache = getRestaurantsCache();
   const restaurantsListFiltered = restaurantsCache.filter((restaurant) =>
@@ -125,7 +125,7 @@ export const filterRestaurants = (keyword) => {
   }
 };
 
-export const showHidePassword = (button, visibility, image) => {
+const showHidePassword = (button, visibility, image) => {
   switch (visibility) {
     case "show":
       button.type = "text";
@@ -138,7 +138,7 @@ export const showHidePassword = (button, visibility, image) => {
   }
 };
 
-export const revealPasswordButton = (buttonElement, inputElement, image) => {
+const revealPasswordButton = (buttonElement, inputElement, image) => {
   buttonElement.addEventListener("click", (e) => {
     e.preventDefault();
   });
@@ -158,4 +158,16 @@ export const revealPasswordButton = (buttonElement, inputElement, image) => {
     e.preventDefault();
     showHidePassword(inputElement, "hide", image);
   });
+};
+
+export {
+  userLocator,
+  fetchData,
+  sortList,
+  clearClasses,
+  clearRestaurantList,
+  addElements,
+  filterRestaurants,
+  showHidePassword,
+  revealPasswordButton,
 };

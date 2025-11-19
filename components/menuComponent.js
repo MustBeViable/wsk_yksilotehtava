@@ -87,7 +87,10 @@ const menuElement = async (restaurant, option, lang) => {
     case "daily": {
       if (menu?.courses?.length) {
         restaurantMenuDialog.innerHTML = restaurantModal(restaurant, menu);
-        restaurantMenuDialog.insertAdjacentHTML("afterbegin", `<button id="close-modal">Close window</button>`);
+        restaurantMenuDialog.insertAdjacentHTML(
+          "afterbegin",
+          `<button id="close-modal">Close window</button>`
+        );
         restaurantMenuDialog.showModal();
         document
           .getElementById("close-modal")

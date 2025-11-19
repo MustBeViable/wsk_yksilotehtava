@@ -6,7 +6,7 @@ async function randomTvShowAd() {
   try {
     while (!showFound) {
       const id = Math.floor(Math.random() * 85000);
-      const response = await fetch(tvApiUrl+id);
+      const response = await fetch(tvApiUrl + id);
       if (response.ok) {
         showFound = true;
         const showObject = await response.json();
@@ -17,10 +17,12 @@ async function randomTvShowAd() {
         <h3>${showObject?.name ?? "unknown title"}</h3>
         <figure>
         <img src="${
-            showObject?.image.medium ||
-            "https://placehold.co/210x295?text=No+Image"
-            }" alt="shows image medium">
-        <figcaption>${showObject?.summary || "failed to load content"}</figcaption>
+          showObject?.image.medium ||
+          "https://placehold.co/210x295?text=No+Image"
+        }" alt="shows image medium">
+        <figcaption>${
+          showObject?.summary || "failed to load content"
+        }</figcaption>
         </figure>
         <h2>WATCH NOW!</h2>
         </div>

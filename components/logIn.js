@@ -1,7 +1,7 @@
 import { fetchData } from "../utils.js";
 import { setLoggedInUser, logInUrl, userUrl, avatarUrl } from "../variables.js";
 
-export const logIn = async (userName, password) => {
+const logIn = async (userName, password) => {
   const option = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,7 +19,8 @@ export const logIn = async (userName, password) => {
     ) {
       await userInfoByToken(response.token);
       return true;
-    } if (response.status===404) {
+    }
+    if (response.status === 404) {
       return false;
     }
   } catch (e) {
@@ -27,7 +28,7 @@ export const logIn = async (userName, password) => {
   }
 };
 
-export async function userInfoByToken(token) {
+async function userInfoByToken(token) {
   const url = userUrl + "/token";
   const option = {
     method: "GET",
@@ -44,7 +45,9 @@ export async function userInfoByToken(token) {
       username: data.username,
       email: data.email,
       favouriteRestaurant: data.favouriteRestaurant ?? "",
-      avatar: userAvatarUrl ?? "./resources/images/def_profile_pic.jpg"
+      avatar: userAvatarUrl ?? "./resources/images/def_profile_pic.jpg",
     });
   } catch (error) {}
 }
+
+export { logIn, userInfoByToken };

@@ -3,7 +3,7 @@ import { fetchData, revealPasswordButton } from "../utils.js";
 import { logIn } from "./logIn.js";
 import { loggedInNavBar } from "./navBar.js";
 
-export const signUpDialogBuilder = () => {
+const signUpDialogBuilder = () => {
   const signUpHTML = `
 <div>
  <button id="close-sign-up">X</button>
@@ -113,3 +113,5 @@ async function checkUsername(userName) {
     return { HTTPcode: e.status };
   }
 }
+
+export { signUpDialogBuilder };

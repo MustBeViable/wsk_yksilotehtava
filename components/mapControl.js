@@ -5,13 +5,13 @@ import { userLocator, clearClasses } from "../utils.js";
 import { menuElement } from "./menuComponent.js";
 import { sendDataToApi } from "./userInformationEdit.js";
 
-export function panMapTo(restaurant) {
+function panMapTo(restaurant) {
   const offsetLong = Math.round(map.getSize().y * 0.2);
   map.panBy([0, -offsetLong], { animate: true });
   const tr = rowById.get(restaurant._id);
 }
 
-export function buildMarkerPopUp(restaurant, marker, lat, long) {
+function buildMarkerPopUp(restaurant, marker, lat, long) {
   const buttonIdDaily = restaurant._id + "-daily";
   const buttonIdWeekly = restaurant._id + "-weekly";
   const favourite = restaurant._id + "-favourite";
@@ -74,7 +74,7 @@ export function buildMarkerPopUp(restaurant, marker, lat, long) {
   });
 }
 
-export async function setMarkers(list, userCoordinates) {
+async function setMarkers(list, userCoordinates) {
   const div = document.createElement("div");
   body.appendChild(div);
   const markerObject = {};
@@ -94,7 +94,7 @@ export async function setMarkers(list, userCoordinates) {
   }
 }
 
-export async function getUserLocation() {
+async function getUserLocation() {
   try {
     const userCoords = await userLocator();
     map.setView([userCoords.lat, userCoords.long], 13);
@@ -108,3 +108,5 @@ export async function getUserLocation() {
     console.log(e.message);
   }
 }
+
+export { panMapTo, buildMarkerPopUp, setMarkers, getUserLocation };
