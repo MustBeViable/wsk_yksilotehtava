@@ -6,7 +6,7 @@ import {
   markerById,
 } from "./variables.js";
 import { restaurantRow } from "./components/menuComponent.js";
-import { failedToLoad } from "./components/error_component.js";
+import { errorMessageComponent } from "./components/error_component.js";
 import { panMapTo } from "./components/mapControl.js";
 
 function userLocator() {
@@ -43,11 +43,11 @@ const fetchData = async (url, options) => {
         return await response.json();
       } else {
         const message = `HTTP: ${response.status}, ${response.statusText}`;
-        failedToLoad("dialog", message, "Close");
+        errorMessageComponent("dialog", message, "Close");
         return await response.json();
       }
     } catch (e) {
-      failedToLoad(
+      errorMessageComponent(
         "dialog",
         "No connection. Check your connection and try again.",
         "Close"
@@ -60,10 +60,10 @@ const fetchData = async (url, options) => {
         return response.json();
       } else {
         const message = `HTTP: ${response.status}, ${response.statusText}`;
-        failedToLoad("dialog", message, "close");
+        errorMessageComponent("dialog", message, "close");
       }
     } catch (e) {
-      failedToLoad(
+      errorMessageComponent(
         "dialog",
         "No connection. Check your connection and try again.",
         "Close"

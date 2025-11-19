@@ -1,6 +1,6 @@
 import { restaurantListUrl, restaurantMenuDialog } from "../variables.js";
 import { clearClasses, fetchData } from "../utils.js";
-import { failedToLoad } from "./error_component.js";
+import { errorMessageComponent } from "./error_component.js";
 
 const restaurantRow = (restaurant) => {
   const { _id, name, company } = restaurant;
@@ -96,7 +96,7 @@ const menuElement = async (restaurant, option, lang) => {
           .getElementById("close-modal")
           ?.addEventListener("click", () => restaurantMenuDialog.close());
       } else {
-        failedToLoad(
+        errorMessageComponent(
           "dialog",
           "No menu found, check your connection and try again.",
           "close"
@@ -139,7 +139,7 @@ const menuElement = async (restaurant, option, lang) => {
         });
         restaurantMenuDialog.showModal();
       } else {
-        failedToLoad(
+        errorMessageComponent(
           "dialog",
           "No menu found, check your connection and try again.",
           "close"

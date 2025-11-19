@@ -2,6 +2,7 @@ import { signUpDialog, userUrl } from "../variables.js";
 import { fetchData, revealPasswordButton } from "../utils.js";
 import { logIn } from "./logIn.js";
 import { loggedInNavBar } from "./navBar.js";
+import { errorMessageComponent } from "./error_component.js";
 
 const signUpDialogBuilder = () => {
   const signUpHTML = `
@@ -43,7 +44,7 @@ const signUpDialogBuilder = () => {
       const emailRegex = /^[^@\s]+@[^@\s]+\.fi$/i;
 
       if (!emailRegex.test(inputEmail.value.trim())) {
-        window.alert("Check your email");
+        errorMessageComponent("dialog", "Check your email", "close");
         return;
       }
 
@@ -65,7 +66,11 @@ const signUpDialogBuilder = () => {
         };
         const signUp = await fetchData(userUrl, userObject);
         if (signUp.status === 400) {
-          window.alert("Please check your input, email might be putted wrong");
+          errorMessageComponent(
+            "dialog",
+            "Please check your input, email might be putted wrong",
+            "Close"
+          );
           return;
         }
         await logIn(inputUserName.value.trim(), inputPassword.value.trim());
@@ -84,7 +89,11 @@ const signUpDialogBuilder = () => {
         !inputEmail.value ||
         !inputUserName.value
       ) {
-        window.alert("please enter all required fields");
+        errorMessageComponent(
+          "dialog",
+          "please enter all required fields",
+          "Close"
+        );
       }
     });
   document.getElementById("close-sign-up").addEventListener("click", (e) => {

@@ -4,7 +4,7 @@ import { userLocator, clearClasses } from "../utils.js";
 
 import { menuElement } from "./menuComponent.js";
 import { sendDataToApi } from "./userInformationEdit.js";
-import { failedToLoad } from "./error_component.js";
+import { errorMessageComponent } from "./error_component.js";
 
 function panMapTo(restaurant) {
   const offsetLong = Math.round(map.getSize().y * 0.2);
@@ -107,7 +107,7 @@ async function getUserLocation() {
     }).addTo(map);
     return [userCoords.lat, userCoords.long];
   } catch (e) {
-    failedToLoad("dialog", "Using default coordinates.", "Close");
+    errorMessageComponent("dialog", "Using default coordinates.", "Close");
     map.setView([defaultCoords.lat, defaultCoords.long], 13);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,

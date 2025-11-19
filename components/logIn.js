@@ -1,5 +1,6 @@
 import { fetchData } from "../utils.js";
 import { setLoggedInUser, logInUrl, userUrl, avatarUrl } from "../variables.js";
+import { errorMessageComponent } from "./error_component.js";
 
 const logIn = async (userName, password) => {
   const option = {
@@ -24,6 +25,11 @@ const logIn = async (userName, password) => {
       return false;
     }
   } catch (e) {
+    errorMessageComponent(
+      "dialog",
+      "Log in failed, check your credentials or try again later",
+      "Close"
+    );
     console.log(e);
   }
 };
@@ -47,7 +53,13 @@ async function userInfoByToken(token) {
       favouriteRestaurant: data.favouriteRestaurant ?? "",
       avatar: userAvatarUrl ?? "./resources/images/def_profile_pic.jpg",
     });
-  } catch (error) {}
+  } catch (error) {
+    errorMessageComponent(
+      "dialog",
+      "Log in failed, check your credentials or try again later",
+      "Close"
+    );
+  }
 }
 
 export { logIn, userInfoByToken };

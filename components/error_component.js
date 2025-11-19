@@ -1,4 +1,4 @@
-const failedToLoad = (element, message, buttonText) => {
+const errorMessageComponent = (element, message, buttonText) => {
   const errorElement = document.createElement(element);
   const div = document.getElementById("error");
   document.querySelector("body").appendChild(div);
@@ -33,4 +33,4 @@ const failedToLoad = (element, message, buttonText) => {
   }
 };
 
-export { failedToLoad };
+export { errorMessageComponent };

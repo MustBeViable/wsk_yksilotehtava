@@ -14,7 +14,7 @@ import {
   sortList,
 } from "./utils.js";
 import { defaultNavBar } from "./components/navBar.js";
-import { failedToLoad } from "./components/error_component.js";
+import { errorMessageComponent } from "./components/error_component.js";
 import { setMarkers, getUserLocation } from "./components/mapControl.js";
 import { ChuckNorris } from "./components/chuckNorris.js";
 import { randomTvShowAd } from "./components/tvShowAd.js";
@@ -34,7 +34,7 @@ const run = async () => {
     setMarkers(list, userCoordinates);
   } catch (err) {
     console.error(err);
-    failedToLoad(
+    errorMessageComponent(
       "dialog",
       "No connection. Check your connection and try again.",
       "Close"
