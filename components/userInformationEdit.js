@@ -242,7 +242,6 @@ export {
   createUserDialog,
   openUserSetting,
   changeUserInfoDialog,
-  changeUserInfoDialog,
   sendDataToApi,
   uploadAvatar,
 };

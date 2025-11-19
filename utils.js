@@ -23,7 +23,8 @@ function userLocator() {
         });
       },
       (err) => {
-        console.log(err.message);
+        //Need to reject so it goes catch block
+        reject(err);
       },
       {
         enableHighAccuracy: true,

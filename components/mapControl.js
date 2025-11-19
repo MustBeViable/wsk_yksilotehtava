@@ -4,6 +4,7 @@ import { userLocator, clearClasses } from "../utils.js";
 
 import { menuElement } from "./menuComponent.js";
 import { sendDataToApi } from "./userInformationEdit.js";
+import { failedToLoad } from "./error_component.js";
 
 function panMapTo(restaurant) {
   const offsetLong = Math.round(map.getSize().y * 0.2);
@@ -95,6 +96,7 @@ async function setMarkers(list, userCoordinates) {
 }
 
 async function getUserLocation() {
+  const defaultCoords = { lat: 60.1699, long: 24.9384 };
   try {
     const userCoords = await userLocator();
     map.setView([userCoords.lat, userCoords.long], 13);
@@ -105,7 +107,14 @@ async function getUserLocation() {
     }).addTo(map);
     return [userCoords.lat, userCoords.long];
   } catch (e) {
-    console.log(e.message);
+    failedToLoad("dialog", "Using default coordinates.", "Close");
+    map.setView([defaultCoords.lat, defaultCoords.long], 13);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+    return [defaultCoords.lat, defaultCoords.long];
   }
 }
 
