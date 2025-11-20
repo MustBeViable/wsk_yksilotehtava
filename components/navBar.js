@@ -1,4 +1,4 @@
-import { getLoggedInUser, navBar } from "../variables.js";
+import { getLoggedInUser, navBar, setLoggedInUser } from "../variables.js";
 import { revealPasswordButton } from "../utils.js";
 import { signUpDialogBuilder } from "./signUp.js";
 import { logIn } from "./logIn.js";
@@ -74,12 +74,26 @@ const loggedInNavBar = () => {
   <img class="profile-picture" src="${
     loggedInUser.avatar ?? "./resources/images/def_profile_pic.jpg"
   }"/>
+  <button id="log-out">Log out</button>
   `;
   navBarBuilder(loggedInHTML);
   const editProfile = document.getElementById("open-profile-edit");
   editProfile.addEventListener("click", (e) => {
     e.preventDefault();
     openUserSetting();
+  });
+  const logOut = document.getElementById("log-out");
+  logOut.addEventListener("click", (e) => {
+    e.preventDefault();
+    const loggedOut = {
+      token: "",
+      username: "",
+      email: "",
+      favouriteRestaurant: "",
+      avatar: null,
+    };
+    setLoggedInUser(loggedOut);
+    defaultNavBar();
   });
 };
 
