@@ -3,7 +3,7 @@ import { map, body, rowById, markerById, userIcon } from "../variables.js";
 import { userLocator, clearClasses } from "../utils.js";
 
 import { menuElement } from "./menuComponent.js";
-import { sendDataToApi } from "./userInformationEdit.js";
+import { sendDataToUserApi } from "./userInformationEdit.js";
 import { errorMessageComponent } from "./error_component.js";
 
 function panMapTo(restaurant) {
@@ -57,7 +57,7 @@ function buildMarkerPopUp(restaurant, marker, lat, long) {
 
     favouriteBtn.onclick = async (e) => {
       e.preventDefault();
-      const logged = await sendDataToApi(null, null, null, restaurant._id);
+      const logged = await sendDataToUserApi(null, null, null, restaurant._id);
       if (!logged) {
         errorMessageComponent(
           "dialog",

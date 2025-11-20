@@ -148,7 +148,7 @@ async function changeUserInfoDialog() {
       newPasswordInput.value ||
       newEmailInput.value
     ) {
-      const responseData = await sendDataToApi(
+      const responseData = await sendDataToUserApi(
         newUserNameInput.value.trim(),
         newPasswordInput.value.trim(),
         newEmailInput.value.trim()
@@ -172,7 +172,7 @@ async function changeUserInfoDialog() {
   userSettingsDialog.showModal();
 }
 
-async function sendDataToApi(
+async function sendDataToUserApi(
   newUsername,
   newPassword,
   newEmail,
@@ -242,6 +242,6 @@ export {
   createUserDialog,
   openUserSetting,
   changeUserInfoDialog,
-  sendDataToApi,
+  sendDataToUserApi,
   uploadAvatar,
 };
