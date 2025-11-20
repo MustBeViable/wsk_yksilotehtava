@@ -58,7 +58,13 @@ function buildMarkerPopUp(restaurant, marker, lat, long) {
     favouriteBtn.onclick = async (e) => {
       e.preventDefault();
       const logged = await sendDataToApi(null, null, null, restaurant._id);
-      if (!logged) alert("you need to be logged in");
+      if (!logged) {
+        errorMessageComponent(
+          "dialog",
+          "You must be logged in to set up a favorite restaurant",
+          "Close"
+        );
+      }
     };
   });
   marker.on("click", () => {
