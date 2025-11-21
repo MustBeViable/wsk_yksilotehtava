@@ -46,11 +46,16 @@ let loggedInUser = {
 };
 
 export function getLoggedInUser() {
-  return loggedInUser;
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  return userInfo;
 }
 
 export function setLoggedInUser(newLoggedInUser) {
-  loggedInUser = newLoggedInUser;
+  if (newLoggedInUser.token) {
+    localStorage.setItem("user", JSON.stringify(newLoggedInUser));
+  } else {
+    localStorage.removeItem("user");
+  }
 }
 
 //ad

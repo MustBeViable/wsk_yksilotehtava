@@ -86,10 +86,10 @@ const loggedInNavBar = () => {
   logOut.addEventListener("click", (e) => {
     e.preventDefault();
     const loggedOut = {
-      token: "",
-      username: "",
-      email: "",
-      favouriteRestaurant: "",
+      token: null,
+      username: null,
+      email: null,
+      favouriteRestaurant: null,
       avatar: null,
     };
     setLoggedInUser(loggedOut);
