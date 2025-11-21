@@ -22,7 +22,6 @@ import { randomTvShowAd } from "./components/tvShowAd.js";
 
 //main function to load all content when user enters the page
 const run = async () => {
-  console.log(getLoggedInUser());
   if (getLoggedInUser()) {
     loggedInNavBar();
   } else {
