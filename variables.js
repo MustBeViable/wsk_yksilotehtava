@@ -37,13 +37,6 @@ export function setRestaurantsCache(restauranlist) {
 export const rowById = new Map();
 export const markerById = new Map();
 
-let loggedInUser = {
-  token: "",
-  username: "",
-  email: "",
-  favouriteRestaurant: "",
-  avatar: null,
-};
 
 export function getLoggedInUser() {
   const userInfo = JSON.parse(localStorage.getItem("user"));

@@ -6,6 +6,7 @@ import {
   jokeButton,
   addElement,
   getAdShowElement,
+  getLoggedInUser,
 } from "./variables.js";
 import {
   filterRestaurants,
@@ -13,7 +14,7 @@ import {
   addElements,
   sortList,
 } from "./utils.js";
-import { defaultNavBar } from "./components/navBar.js";
+import { defaultNavBar, loggedInNavBar } from "./components/navBar.js";
 import { errorMessageComponent } from "./components/error_component.js";
 import { setMarkers, getUserLocation } from "./components/mapControl.js";
 import { ChuckNorris } from "./components/chuckNorris.js";
@@ -21,7 +22,12 @@ import { randomTvShowAd } from "./components/tvShowAd.js";
 
 //main function to load all content when user enters the page
 const run = async () => {
-  defaultNavBar();
+  console.log(getLoggedInUser());
+  if (getLoggedInUser()) {
+    loggedInNavBar();
+  } else {
+    defaultNavBar();
+  }
   filterByName.addEventListener("input", () => {
     filterRestaurants(filterByName.value);
   });
